@@ -1,12 +1,21 @@
 package at.fhstp.sniffable;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Sniffer implements Subject {
 
 	//protected List<Observer> observers = new ArrayList<Observer>();
-	protected String name;
+	private String name;
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	protected String handle;
 	
 	/*public Sniffer(String name, String handle) {
