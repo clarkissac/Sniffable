@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootApplication
 @Controller
@@ -81,6 +82,20 @@ public class SniffableApplication {
 
     	//add cookie to response
     	response.addCookie(cookie);
-		return "register_success";
-}
+		return "register_success.html";
+	}
+	@GetMapping("/login")
+	public String getForm(){
+		return "login_form.html";
+
+	}
+	@PostMapping("/login")
+    public String submitFormLo(@RequestParam("name") String name, @RequestParam("password") String password) {
+
+		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
+			return "welcome.html";
+			
+		}
+		return "index.html";
+    }
 }
