@@ -102,7 +102,31 @@ public class SniffableApplication {
 
 	}
 	@PostMapping("/login")
-    public String submitFormLo(@RequestParam("name") String name, @RequestParam("password") String password) {
+    public String submitFormLogin(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response) {
+		try {
+			Class.forName(DB_DRIVER);
+			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+			String selectQuery = "select * from Sniffers WHERE username=? and passwort=? ";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
+			preparedStatement.setObject(1,name);
+			preparedStatement.setObject(2,password);
+			ResultSet rs = preparedStatement.executeQuery();
+			///System.out.println(rs.getString("first_name"));
+			if (!rs.next()) {
+				dbConnection.close();
+				//return "login_fail.html"
+				return "index.html";
+			}
+			else{
+				dbConnection.close();
+				Cookie cookie = new Cookie("username",name);
+    			response.addCookie(cookie);
+				return "welcome.html";
+			}
+		}
+		catch (Exception e)   {
+			e.printStackTrace();
+		}
 
 		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
 			return "welcome.html";
