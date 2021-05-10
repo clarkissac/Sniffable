@@ -47,10 +47,9 @@ public class SniffableApplication {
     }
 
 	@PostMapping("/register")
-	public String submitForm(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response) {
+	public String submitForm(@ModelAttribute("user") Sniffer user, HttpServletResponse response) {
 		//System.out.println(user);
-		Cookie cookie = new Cookie("username", name);
-		
+		Cookie cookie = new Cookie("username", user.getName());
 
     	//add cookie to response
     	response.addCookie(cookie);

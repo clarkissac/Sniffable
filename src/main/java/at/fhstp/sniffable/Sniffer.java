@@ -7,6 +7,8 @@ public class Sniffer implements Subject {
 
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	private String name;
+	private String password;
+	private String dogname;
 
 	public String getName() {
 		return this.name;
@@ -16,7 +18,20 @@ public class Sniffer implements Subject {
 		this.name = name;
 	}
 
-	protected String handle;
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getDogName() {
+		return dogname;
+	}
+	public void setDogName(String dogName) {
+		this.dogname = dogName;
+	}
+
 	
 	/*public Sniffer(String name, String handle) {
 		super();
