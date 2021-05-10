@@ -7,7 +7,7 @@ CREATE TABLE Sniffers (
   dog_name VARCHAR(250) NOT NULL
 );
 
-INSERT INTO billionaires (first_name, last_name, dog_name) VALUES
+INSERT INTO Sniffers (first_name, last_name, dog_name) VALUES
   ('Max', 'Mustermann', 'Raz'),
   ('Bill', 'Gates', 'Doge'),
   ('Folrunsho', 'Alakija', 'Hugo');
