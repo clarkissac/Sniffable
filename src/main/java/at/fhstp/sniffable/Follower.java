@@ -1,4 +1,4 @@
-package at.ac.fhstp.gof.observer;
+package at.fhstp.sniffable;
 
 public class Follower implements Observer {
 

@@ -1,4 +1,4 @@
-package at.ac.fhstp.gof.observer;
+package at.fhstp.sniffable;
 
 public interface Observer {
 	public void notification(String handle, String tweet);
