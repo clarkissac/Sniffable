@@ -8,6 +8,6 @@ CREATE TABLE Sniffers (
 );
 
 INSERT INTO Sniffers (first_name, last_name, dog_name) VALUES
-  ('Max', 'Mustermann', 'Raz', 'Rex)',
-  ('Bill', 'Gates', 'Doge', 'ScoobyDoo'),
-  ('Folrunsho', 'Alakija', 'Hugo', 'Tessi');
+  ('Max', 'Mustermann', 'Raz'),
+  ('Bill', 'Gates', 'Doge'),
+  ('Folrunsho', 'Alakija', 'Hugo');
