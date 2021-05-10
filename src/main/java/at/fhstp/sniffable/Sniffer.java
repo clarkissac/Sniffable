@@ -5,21 +5,27 @@ import java.util.List;
 
 public class Sniffer implements Subject {
 
-	protected List<Observer> observers = new ArrayList<Observer>();
+	//protected List<Observer> observers = new ArrayList<Observer>();
 	protected String name;
+	protected String password;
 	protected String dogname;
 	protected String firstname;
 	protected String lastname;
 	
 	protected String handle;
 
-	public Sniffer(String name, String firstname, String lastname, String dogname, String handle) {
+
+	public Sniffer() { //empty consructor
+	}
+
+	public Sniffer(String name, String firstname, String password, String lastname, String dogname) {
 		super();
 		this.name = name;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.dogname = dogname;
-		this.handle = "#" + handle;
+		this.password = password;
+		//this.handle = "#" + handle;
 
 	}
 
@@ -61,12 +67,18 @@ public class Sniffer implements Subject {
 	public String getHandle() {
 		return handle;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	/**
 	public void tweet(String tweet) {
 		System.out.printf("\nName: %s, Tweet: %s\n", name, tweet);
 		notifySubscribers(tweet);
 	}
-
 	@Override
 	public synchronized void addSubscriber(Observer observer) {
 		observers.add(observer);
@@ -80,6 +92,6 @@ public class Sniffer implements Subject {
 	@Override
 	public void notifySubscribers(String tweet) {
 		observers.forEach(observer -> observer.notification(handle, tweet));
-	}
+	}*/
 
 }
