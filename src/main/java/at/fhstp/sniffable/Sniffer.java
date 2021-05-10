@@ -8,7 +8,7 @@ public class Sniffer implements Subject {
 	protected List<Observer> observers = new ArrayList<Observer>();
 	protected String name;
 	protected String handle;
-
+	
 	public Sniffer(String name, String handle) {
 		super();
 		this.name = name;
