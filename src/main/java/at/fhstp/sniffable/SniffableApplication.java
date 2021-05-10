@@ -68,20 +68,33 @@ public class SniffableApplication {
     public String showForm(Model model) {
         Sniffer user = new Sniffer();
         model.addAttribute("user", user);
-         
-        //List<String> listProfession = Arrays.asList("Developer", "Tester", "Architect");
-        //model.addAttribute("listProfession", listProfession);
-    
         return "register_form";
     }
 
 	@PostMapping("/register")
 	public String submitForm(@ModelAttribute("user") Sniffer user, HttpServletResponse response) {
-		//System.out.println(user);
-		Cookie cookie = new Cookie("username", user.getName());
-
-    	//add cookie to response
-    	response.addCookie(cookie);
+		try {
+			Class.forName(DB_DRIVER);
+			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+			String selectQuery = "INSERT INTO Sniffers VALUES (?, ?, ?, ?); ";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
+			preparedStatement.setObject(1,user.getName());
+			preparedStatement.setObject(2,user.getPassword());
+			preparedStatement.setObject(3,user.getDogname());
+			preparedStatement.setObject(4,user);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next())    {
+				System.out.println(rs.getString("first_name"));
+			}
+			dbConnection.close();
+			Cookie cookie = new Cookie("username", user.getName());
+    		response.addCookie(cookie);
+		}
+		catch (Exception e)   {
+			e.printStackTrace();
+		}
+		
 		return "register_success.html";
 	}
 	@GetMapping("/login")
@@ -94,7 +107,6 @@ public class SniffableApplication {
 
 		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
 			return "welcome.html";
-			
 		}
 		return "index.html";
     }

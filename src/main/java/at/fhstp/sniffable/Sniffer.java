@@ -3,12 +3,20 @@ package at.fhstp.sniffable;
 //import java.util.ArrayList;
 //import java.util.List;
 
-public class Sniffer implements Subject {
+public class Sniffer implements Subject, java.io.Serializable {
 
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	private String name;
 	private String password;
 	private String dogname;
+
+	public String getDogname() {
+		return this.dogname;
+	}
+
+	public void setDogname(String dogname) {
+		this.dogname = dogname;
+	}
 
 	public String getName() {
 		return this.name;
@@ -24,12 +32,6 @@ public class Sniffer implements Subject {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getDogName() {
-		return dogname;
-	}
-	public void setDogName(String dogName) {
-		this.dogname = dogName;
 	}
 
 	
