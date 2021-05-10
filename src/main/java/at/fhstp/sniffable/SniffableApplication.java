@@ -11,12 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootApplication
 @Controller
@@ -52,13 +47,27 @@ public class SniffableApplication {
     }
 
 	@PostMapping("/register")
-	public String submitForm(@ModelAttribute("user") Sniffer user, HttpServletResponse response) {
+	public String submitForm(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response) {
 		//System.out.println(user);
-		Cookie cookie = new Cookie("username", user.getName());
+		Cookie cookie = new Cookie("username", name);
+		
 
     	//add cookie to response
     	response.addCookie(cookie);
-		return "register_success";
+		return "register_success.html";
 	}
-	
+	@GetMapping("/login")
+	public String getForm(){
+		return "login_form.html";
+
+	}
+	@PostMapping("/login")
+    public String submitFormLo(@RequestParam("name") String name, @RequestParam("password") String password) {
+
+		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
+			return "welcome.html";
+			
+		}
+		return "index.html";
+    }
 }

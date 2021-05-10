@@ -10,6 +10,7 @@
     <form action="#" th:action="@{/register}" method="post" th:object="${user}">
         <label>Full name:</label>
         <input type="text" th:field="*{name}" /><br/>
+        <input type="password" th:field="*{password}" /><br/>
         <button type="submit">Register</button>    
     </form>
 </div>
