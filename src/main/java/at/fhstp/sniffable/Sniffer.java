@@ -1,14 +1,37 @@
 package at.fhstp.sniffable;
 
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Sniffer implements Subject, java.io.Serializable {
+public class Sniffer implements Subject {
 
 	//protected List<Observer> observers = new ArrayList<Observer>();
-	private String name;
-	private String password;
-	private String dogname;
+	protected String name;
+	protected String password;
+	protected String dogname;
+	protected String firstname;
+	protected String lastname;
+	
+	protected String handle;
+
+
+	public Sniffer() { //empty consructor
+	}
+
+	public Sniffer(String name, String firstname, String password, String lastname, String dogname) {
+		super();
+		this.name = name;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.dogname = dogname;
+		this.password = password;
+		//this.handle = "#" + handle;
+
+	}
+
+	public String getName() {
+		return name;
+	}
 
 	public String getDogname() {
 		return this.dogname;
@@ -18,31 +41,23 @@ public class Sniffer implements Subject, java.io.Serializable {
 		this.dogname = dogname;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getFirstname() {
+		return this.firstname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getPassword() {
-		return this.password;
+	public String getLastname() {
+		return this.lastname;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
-
-	
-	/*public Sniffer(String name, String handle) {
-		super();
-		this.name = name;
-		this.handle = "#" + handle;
-	}
-
-	public String getName() {
-		return name;
+	public void setHandle(String handle) {
+		this.handle = handle;
 	}
 
 	public void setName(String name) {
@@ -52,12 +67,18 @@ public class Sniffer implements Subject, java.io.Serializable {
 	public String getHandle() {
 		return handle;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	/**
 	public void tweet(String tweet) {
 		System.out.printf("\nName: %s, Tweet: %s\n", name, tweet);
 		notifySubscribers(tweet);
 	}
-
 	@Override
 	public synchronized void addSubscriber(Observer observer) {
 		observers.add(observer);
