@@ -1,10 +1,10 @@
-package at.ac.fhstp.demo;
+package at.fhstp.sniffable;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class SniffableApplicationTests {
 
 	@Test
 	void contextLoads() {
