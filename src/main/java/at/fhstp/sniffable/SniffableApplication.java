@@ -76,17 +76,16 @@ public class SniffableApplication {
 		try {
 			Class.forName(DB_DRIVER);
 			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-			String selectQuery = "INSERT INTO Sniffers VALUES (?, ?, ?, ?); ";
+			String selectQuery = "INSERT INTO Sniffers (username, passwort, first_name, last_name, dog_name, obj) VALUES (?, ?, ?, ?, ?, ?); ";
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
 			preparedStatement.setObject(1,user.getName());
 			preparedStatement.setObject(2,user.getPassword());
-			preparedStatement.setObject(3,user.getDogname());
-			preparedStatement.setObject(4,user);
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			while(rs.next())    {
-				System.out.println(rs.getString("first_name"));
-			}
+			preparedStatement.setObject(3,user.getFirstname());
+			preparedStatement.setObject(4,user.getLastname());
+			preparedStatement.setObject(5,user.getDogname());
+			preparedStatement.setObject(6,user);
+			preparedStatement.execute();
+			dbConnection.commit();
 			dbConnection.close();
 			Cookie cookie = new Cookie("username", user.getName());
     		response.addCookie(cookie);

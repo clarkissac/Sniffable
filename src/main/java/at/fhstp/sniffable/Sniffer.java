@@ -1,9 +1,6 @@
 package at.fhstp.sniffable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Sniffer implements Subject {
+public class Sniffer implements Subject,java.io.Serializable {
 
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	protected String name;

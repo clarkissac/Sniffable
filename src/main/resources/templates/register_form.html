@@ -8,8 +8,12 @@
 <div align="center">
     <h1>User Registration</h1>
     <form action="#" th:action="@{/register}" method="post" th:object="${user}">
-        <label>Full name:</label>
+        <label>Username:</label>
         <input type="text" th:field="*{name}" /><br/>
+        <label>First name:</label>
+        <input type="text" th:field="*{firstname}" /><br/>
+        <label>Last name:</label>
+        <input type="text" th:field="*{lastname}" /><br/>
         <label>password:</label>
         <input type="password" th:field="*{password}" /><br/>
         <label>dogname:</label>

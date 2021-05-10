@@ -10,5 +10,5 @@ CREATE TABLE Sniffers (
   obj OTHER NULL
 );
 
-INSERT INTO Sniffers (username, passwort, first_name, last_name, dog_name, obj) VALUES
-  ( 'MAXMUSTER','test','Max', 'Mustermann', 'Raz',null),
+INSERT INTO Sniffers (username, passwort, first_name, last_name, dog_name) VALUES
+  ( 'MAXMUSTER','test','Max', 'Mustermann', 'Raz')
