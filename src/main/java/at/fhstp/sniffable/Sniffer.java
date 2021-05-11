@@ -1,7 +1,7 @@
 package at.fhstp.sniffable;
 
 public class Sniffer implements Subject,java.io.Serializable {
-
+	private static final long serialVersionUID = 1L;
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	protected String name;
 	protected String password;

@@ -1,5 +1,7 @@
 package at.fhstp.sniffable;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -32,7 +34,7 @@ public class SniffableApplication {
 	}
 
 	@GetMapping("/")
-	public String homepage(HttpServletRequest request)
+	public String homepage(Model model,HttpServletRequest request)
 	{
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null){
@@ -41,15 +43,21 @@ public class SniffableApplication {
 				try {
 					Class.forName(DB_DRIVER);
 					Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-					String selectQuery = "select * from Sniffers WHERE first_name=?";
+					String selectQuery = "select obj from Sniffers WHERE username=?";
 					PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
 					preparedStatement.setObject(1,ck.getValue());
 					ResultSet rs = preparedStatement.executeQuery();
-					///System.out.println(rs.getString("first_name"));
-					while(rs.next())    {
-						//Sniffer user = (Sniffer) rs.getObject("ser_user");
-						//model.addAttribute("user", user);
-						System.out.println(rs.getString("first_name"));
+					if (rs.next()) 
+					{
+					byte[] buf = rs.getBytes(1);
+					ObjectInputStream object = null;
+					if (buf != null)
+						object = new ObjectInputStream(new ByteArrayInputStream(buf));
+
+					Sniffer user = (Sniffer) object.readObject();
+						//Sniffer user = (Sniffer) rs.getObject("obj");
+					model.addAttribute("user", user);
+					//System.out.println(user.getName());
 					}
 					dbConnection.close();
 					return "welcome.html";
