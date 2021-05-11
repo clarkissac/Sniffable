@@ -123,8 +123,7 @@ public class SniffableApplication {
 			///System.out.println(rs.getString("first_name"));
 			if (!rs.next()) {
 				dbConnection.close();
-				//return "login_fail.html"
-				redirectAttributes.addAttribute("bad",1);
+				redirectAttributes.addAttribute("bad",1); //bad credentials
 				return "redirect:/login";
 			}
 			else{
