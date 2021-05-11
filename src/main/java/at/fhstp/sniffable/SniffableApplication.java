@@ -111,7 +111,10 @@ public class SniffableApplication {
 
 	}
 	@PostMapping("/login")
-    public String submitFormLogin(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) {
+    public String submitFormLogin(@RequestParam("name") String name, 
+									@RequestParam("password") String password,
+									HttpServletResponse response,
+									RedirectAttributes redirectAttributes, Model model) {
 		try {
 			Class.forName(DB_DRIVER);
 			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
