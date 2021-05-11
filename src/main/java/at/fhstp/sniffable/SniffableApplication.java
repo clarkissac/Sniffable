@@ -130,7 +130,7 @@ public class SniffableApplication {
 				dbConnection.close();
 				Cookie cookie = new Cookie("username",name);
     			response.addCookie(cookie);
-				return "welcome.html";
+				return "redirect:/";
 			}
 		}
 		catch (Exception e)   {
