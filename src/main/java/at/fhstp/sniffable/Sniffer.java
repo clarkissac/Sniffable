@@ -1,8 +1,15 @@
 package at.fhstp.sniffable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Sniffer implements Subject,java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	//protected List<Observer> observers = new ArrayList<Observer>();
+	protected List<Sniffer> followerlist = new ArrayList<Sniffer>();
+	protected int followercount=0;
+	
 	protected String name;
 	protected String password;
 	protected String dogname;
@@ -24,6 +31,12 @@ public class Sniffer implements Subject,java.io.Serializable {
 		this.password = password;
 		//this.handle = "#" + handle;
 
+	}
+
+	public void addNewFollower(Sniffer follower)
+	{
+		this.followerlist.add(follower);
+		this.followercount+=1;
 	}
 
 	public String getName() {
