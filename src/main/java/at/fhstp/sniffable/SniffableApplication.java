@@ -49,15 +49,15 @@ public class SniffableApplication {
 					ResultSet rs = preparedStatement.executeQuery();
 					if (rs.next()) 
 					{
-					byte[] buf = rs.getBytes(1);
-					ObjectInputStream object = null;
-					if (buf != null)
-						object = new ObjectInputStream(new ByteArrayInputStream(buf));
+						byte[] buf = rs.getBytes(1);
+						ObjectInputStream object = null;
+						if (buf != null)
+							object = new ObjectInputStream(new ByteArrayInputStream(buf));
 
-					Sniffer user = (Sniffer) object.readObject();
-						//Sniffer user = (Sniffer) rs.getObject("obj");
-					model.addAttribute("user", user);
-					//System.out.println(user.getName());
+						Sniffer user = (Sniffer) object.readObject();
+							//Sniffer user = (Sniffer) rs.getObject("obj");
+						model.addAttribute("user", user);
+						//System.out.println(user.getName());
 					}
 					dbConnection.close();
 					return "welcome.html";
@@ -72,6 +72,37 @@ public class SniffableApplication {
 		}
 			return "index.html";
 	}
+
+	@PostMapping("/")
+	public String submit_search(@RequestParam("search_user") String name, Model model) {
+		try {
+			Class.forName(DB_DRIVER);
+			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+			String selectQuery = "select obj from Sniffers WHERE username=?";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
+			preparedStatement.setObject(1,name);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) 
+			{
+				byte[] buf = rs.getBytes(1);
+				ObjectInputStream object = null;
+				if (buf != null)
+					object = new ObjectInputStream(new ByteArrayInputStream(buf));
+
+				Sniffer user = (Sniffer) object.readObject();
+					//Sniffer user = (Sniffer) rs.getObject("obj");
+				model.addAttribute("user", user);
+				//System.out.println(user.getName());
+			}
+			dbConnection.close();
+			return "welcome.html";
+		}
+		catch (Exception e)   {
+			e.printStackTrace();
+		}
+		return "index.html";
+	}
+
 	@GetMapping("/register")
     public String showForm(Model model) {
         Sniffer user = new Sniffer();

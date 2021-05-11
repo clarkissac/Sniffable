@@ -8,11 +8,14 @@
 <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+    <form action="/"  method="POST">
     <div class="row py-5 px-4">
         <div class="col-md-5 mx-auto">
             <!-- Profile widget -->
             <div class="bg-white shadow rounded overflow-hidden">
                 <div class="px-4 pt-0 pb-4 cover">
+                    <input type="text"  name="search_user" id="search_user" placeholder="Search for dogs...">
+                    <input type="submit" name="bt_search" id="bt_search" value="Search">
                     <div class="media align-items-end profile-head">
                         <div class="profile mr-3"><img src="https://i.pinimg.com/originals/6f/1e/8b/6f1e8b15a860d0083116f8bd9e2778d6.png" alt="..." width="130" class="rounded mb-2 img-thumbnail"><!--<a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>--></div>
                         <div class="media-body mb-5 text-white">
@@ -53,5 +56,6 @@
             </div>
         </div>
     </div>
+</form>
 </body>
 </html>
