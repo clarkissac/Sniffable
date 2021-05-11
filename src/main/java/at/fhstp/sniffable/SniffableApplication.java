@@ -75,7 +75,7 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
-				//return "own_account.html";
+				return "own_account.html";
 				}
 				
 				//return "welcome.html";
@@ -150,7 +150,7 @@ public class SniffableApplication {
 				dbConnection.close();
 				Cookie cookie = new Cookie("username",name);
     			response.addCookie(cookie);
-				return "own_account.html";
+				return "redirect:/";
 			}
 		}
 		catch (Exception e)   {
