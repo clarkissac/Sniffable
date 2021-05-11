@@ -107,7 +107,7 @@ public class SniffableApplication {
     public String showForm(Model model) {
         Sniffer user = new Sniffer();
         model.addAttribute("user", user);
-        return "register_form";
+        return "register_form.html";
     }
 
 	@PostMapping("/register")
