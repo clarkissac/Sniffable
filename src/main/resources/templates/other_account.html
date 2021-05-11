@@ -23,6 +23,8 @@
                         </div>
                     </div>
                 </div>
+            </form><form action="/follow" method="POST">
+                <input type="hidden" name="hidden_wanted_user" th:value="${user.name}">
                 <div class="bg-light p-4 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item" style="vertical-align: bottom;">
@@ -39,6 +41,7 @@
                         </li>
                     </ul>
                 </div>
+                </form><form action="/"  method="POST">
                 <div class="px-4 py-3">
                     <h5 class="mb-0">About</h5>
                     <div class="p-4 rounded shadow-sm bg-light">

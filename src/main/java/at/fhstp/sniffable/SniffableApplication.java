@@ -33,6 +33,11 @@ public class SniffableApplication {
 		//test
 	}
 
+	@PostMapping("/follow")
+	public String follownow(@RequestParam("hidden_wanted_user") String wantedUser,HttpServletRequest request)
+	{
+		return "other_account.html";
+	}
 	@GetMapping("/")
 	public String homepage(Model model,HttpServletRequest request)
 	{
