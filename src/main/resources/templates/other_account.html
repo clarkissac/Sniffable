@@ -23,8 +23,13 @@
                         </div>
                     </div>
                 </div>
+            </form><form action="/follow" method="POST">
+                <input type="hidden" name="hidden_wanted_user" th:value="${user.name}">
                 <div class="bg-light p-4 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
+                        <li class="list-inline-item" style="vertical-align: bottom;">
+                            <input type="submit" name="bt_follow" id="bt_follow" value="Follow">
+                        </li>
                         <li class="list-inline-item">
                             <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
                         </li>
@@ -36,6 +41,7 @@
                         </li>
                     </ul>
                 </div>
+                </form><form action="/"  method="POST">
                 <div class="px-4 py-3">
                     <h5 class="mb-0">About</h5>
                     <div class="p-4 rounded shadow-sm bg-light">

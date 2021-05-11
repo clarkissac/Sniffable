@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,39 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
+	public void accountsearch(String name, Model model) {
+		try {
+			Class.forName(DB_DRIVER);
+			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+			String selectQuery = "select obj from Sniffers WHERE username=?";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
+			preparedStatement.setObject(1,name);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) 
+			{
+				byte[] buf = rs.getBytes(1);
+				ObjectInputStream object = null;
+				if (buf != null)
+					object = new ObjectInputStream(new ByteArrayInputStream(buf));
 
+				Sniffer user = (Sniffer) object.readObject();
+					//Sniffer user = (Sniffer) rs.getObject("obj");
+				model.addAttribute("user", user);
+				//System.out.println(user.getName());
+			}
+			dbConnection.close();
+		}
+		catch (Exception e)   {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@PostMapping("/follow")
+	public String follownow(@RequestParam("hidden_wanted_user") String wantedUser,HttpServletRequest request)
+	{
+		return "other_account.html";	
+	}
 	@GetMapping("/")
 	public String homepage(Model model,HttpServletRequest request)
 	{
@@ -41,43 +74,27 @@ public class SniffableApplication {
 		if (cookies != null){
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
-				try {
-					Class.forName(DB_DRIVER);
-					Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-					String selectQuery = "select obj from Sniffers WHERE username=?";
-					PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
-					preparedStatement.setObject(1,ck.getValue());
-					ResultSet rs = preparedStatement.executeQuery();
-					if (rs.next()) 
-					{
-					byte[] buf = rs.getBytes(1);
-					ObjectInputStream object = null;
-					if (buf != null)
-						object = new ObjectInputStream(new ByteArrayInputStream(buf));
-
-					Sniffer user = (Sniffer) object.readObject();
-						//Sniffer user = (Sniffer) rs.getObject("obj");
-					model.addAttribute("user", user);
-					//System.out.println(user.getName());
-					}
-					dbConnection.close();
-					return "welcome.html";
-				}
-				catch (Exception e)   {
-					e.printStackTrace();
+				accountsearch(ck.getValue(), model);
+				//return "own_account.html";
 				}
 				
 				//return "welcome.html";
 			  }
 		  	}
-		}
 			return "index.html";
 	}
+
+	@PostMapping("/")
+	public String submit_search(@RequestParam("search_user") String name, Model model) {
+		accountsearch(name, model);
+		return "other_account.html";
+	}
+
 	@GetMapping("/register")
     public String showForm(Model model) {
         Sniffer user = new Sniffer();
         model.addAttribute("user", user);
-        return "register_form";
+        return "register_form.html";
     }
 
 	@PostMapping("/register")
@@ -133,14 +150,12 @@ public class SniffableApplication {
 				dbConnection.close();
 				Cookie cookie = new Cookie("username",name);
     			response.addCookie(cookie);
-				return "redirect:/";
+				return "own_account.html";
 			}
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
 			return "index.html"; //todo
 		}
-
-		
     }
 }
