@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @SpringBootApplication
 @Controller
@@ -102,7 +103,7 @@ public class SniffableApplication {
 
 	}
 	@PostMapping("/login")
-    public String submitFormLogin(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response) {
+    public String submitFormLogin(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) {
 		try {
 			Class.forName(DB_DRIVER);
 			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
@@ -115,7 +116,8 @@ public class SniffableApplication {
 			if (!rs.next()) {
 				dbConnection.close();
 				//return "login_fail.html"
-				return "index.html";
+				redirectAttributes.addAttribute("bad",1);
+				return "redirect:/login";
 			}
 			else{
 				dbConnection.close();
@@ -126,11 +128,9 @@ public class SniffableApplication {
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
+			return "index.html"; //todo
 		}
 
-		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
-			return "welcome.html";
-		}
-		return "index.html";
+		
     }
 }
