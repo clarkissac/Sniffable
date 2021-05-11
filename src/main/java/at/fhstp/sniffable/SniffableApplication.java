@@ -60,7 +60,7 @@ public class SniffableApplication {
 						//System.out.println(user.getName());
 					}
 					dbConnection.close();
-					return "welcome.html";
+					return "own_account.html";
 				}
 				catch (Exception e)   {
 					e.printStackTrace();
@@ -95,7 +95,7 @@ public class SniffableApplication {
 				//System.out.println(user.getName());
 			}
 			dbConnection.close();
-			return "welcome.html";
+			return "other_account.html";
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
@@ -160,7 +160,7 @@ public class SniffableApplication {
 				dbConnection.close();
 				Cookie cookie = new Cookie("username",name);
     			response.addCookie(cookie);
-				return "welcome.html";
+				return "own_account.html";
 			}
 		}
 		catch (Exception e)   {
@@ -168,7 +168,7 @@ public class SniffableApplication {
 		}
 
 		if (name.compareTo("test") == 1 && password.compareTo("test") == 1) {
-			return "welcome.html";
+			return "own_account.html";
 		}
 		return "index.html";
     }
