@@ -1,7 +1,6 @@
 package at.fhstp.sniffable;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -213,7 +212,6 @@ public class SniffableApplication {
     }
 
 	private static String UPLOADED_FOLDER = "src\\upload-dir";
-	private final double MAXFILESIZE = 5 * 1024 *1024;
 
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -234,12 +232,10 @@ public class SniffableApplication {
     public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
-		String mimeType = file.getContentType();
 
-
-        if (file.isEmpty() || !mimeType.startsWith("image") || file.getSize() > MAXFILESIZE) {
+        if (file.isEmpty() || !file.getContentType().startsWith("image")) {
             redirectAttributes.addFlashAttribute("message", "Invalid File");
-            return "redirect:uploadStatus";
+            return "redirect:/";
         } 
 
         try {
