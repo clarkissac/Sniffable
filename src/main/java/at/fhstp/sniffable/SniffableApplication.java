@@ -45,7 +45,7 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
-	public Sniffer accountsearch(String name, Model model) {
+	public static Sniffer accountsearch(String name, Model model) {
 		try {
 			Sniffer user;
 			Class.forName(DB_DRIVER);
@@ -63,7 +63,11 @@ public class SniffableApplication {
 
 				user = (Sniffer) object.readObject();
 					//Sniffer user = (Sniffer) rs.getObject("obj");
-				model.addAttribute("user", user);
+				if (model!=null)
+				{
+					model.addAttribute("user", user);
+				}
+				
 				//System.out.println(user.getName());
 				dbConnection.close();
 				return user;
@@ -77,7 +81,7 @@ public class SniffableApplication {
 		
 	}
 
-	public void updateObjH2(Sniffer user)
+	public static void updateObjH2(Sniffer user)
 	{
 		try {
 			Class.forName(DB_DRIVER);
@@ -103,8 +107,8 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer follower=accountsearch(ck.getValue(), model);
-				wanted.addNewFollower(follower);
-				follower.addNewFollowing(wanted);
+				wanted.addNewFollower(follower.getName());
+				follower.addNewFollowing(wanted.getName());
 				updateObjH2(wanted);
 				updateObjH2(follower);
 			  }

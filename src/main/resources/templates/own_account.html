@@ -62,10 +62,18 @@
                 <form action="/"  method="POST">
                 <div class="py-4 px-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                        <h5 class="mb-0">Recent photos and tweets</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                     </div>
                     <div class="row">
                         <table>
+                            <tr th:each="tweet : ${user.getTweets}">
+                                <div class="px-4 py-3" style="width:100%;">
+                                    <h6 class="mb-0">Hat getweetet</h6>
+                                    <div class="p-4 rounded shadow-sm bg-light">
+                                        <p class="font-italic mb-0" th:text="${tweet}"></p>
+                                    </div>
+                                </div>
+                            </tr>
                             <tr><td><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></td></tr>
                         </table>
                         <!--<div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
@@ -77,10 +85,16 @@
             </div>
         </div>
         <div style="background-color: #f8f9fa !important;">
+            <h5 style="font-weight: bold;text-align: center; padding-top: 5%;">Newsfeed</h5>
             <table>
-                <thead><tr><th style="text-align: center;">Newsfeed:</th></tr></thead>
                 <tbody>
-                    <tr><td>Nico Lutz ist schwul</td></tr>
+                    <tr th:each="event : ${user.timeline}">
+                        <div class="px-4 py-3" style="width:100%;">
+                            <div class="p-4 rounded shadow-sm bg-light">
+                                <p class="font-italic mb-0" th:text="${event}"></p>
+                            </div>
+                        </div>
+                    </tr>
                 </tbody>
             </table>
             
