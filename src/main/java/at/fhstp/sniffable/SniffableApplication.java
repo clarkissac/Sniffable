@@ -266,7 +266,7 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
-					System.out.println(path);
+					//System.out.println(path);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
 					redirectAttributes.addFlashAttribute("message",
