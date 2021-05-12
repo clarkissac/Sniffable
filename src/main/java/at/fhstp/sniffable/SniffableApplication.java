@@ -125,6 +125,7 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
+				model.addAttribute("images",imageMetaRepository.getImagePathsForUser(ck.getValue()));
 				return "own_account.html";
 				}
 				
@@ -141,6 +142,7 @@ public class SniffableApplication {
                     "User not found");
 					return "searchStatus";
 		}
+		model.addAttribute("images",imageMetaRepository.getImagePathsForUser(name));
 
 		return "other_account.html";
 	}
@@ -214,7 +216,7 @@ public class SniffableApplication {
 		}
     }
 
-	private static String UPLOADED_FOLDER = "src\\upload-dir";
+	private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\upload-dir";
 
 	@PostMapping("/tweet")
 	public String tweet(@RequestParam("tweetarea") String tweet, Model model,HttpServletRequest request)
@@ -264,6 +266,7 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
+					System.out.println(path);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
 					redirectAttributes.addFlashAttribute("message",

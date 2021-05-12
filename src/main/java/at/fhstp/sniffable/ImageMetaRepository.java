@@ -25,15 +25,15 @@ public class ImageMetaRepository {
     }
 
 
-    public List<Path> getImagePathsForUser(String user){
+    public List<ImageMeta> getImagePathsForUser(String user){
 
-        List <Path> userPaths = new ArrayList<Path>();
+        List <ImageMeta> userpictures = new ArrayList<ImageMeta>();
         for(ImageMeta meta : metaData){
             if(meta.getUser().equals(user)){
-                userPaths.add(meta.getFilePath());
+                userpictures.add(meta);
             }
         }
-        return userPaths;
+        return userpictures;
 
 
     }
