@@ -36,6 +36,8 @@ public class SniffableApplication {
     static String DB_CONNECTION = "jdbc:h2:mem:testdb";
     static String DB_USER = "sa";
     static String DB_PASSWORD = "";
+	ImageMetaRepository imageMetaRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
@@ -237,6 +239,8 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + file.getOriginalFilename());
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
+					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
+					imageMetaRepository.addMeta(metaDate);
 					redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
 				}
@@ -247,7 +251,7 @@ public class SniffableApplication {
             e.printStackTrace();
         }
         
-        return "redirect:/uploadStatus";
+        return "redirect:/";
     }
 
     @GetMapping("/uploadStatus")
