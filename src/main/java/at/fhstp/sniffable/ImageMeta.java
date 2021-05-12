@@ -1,8 +1,6 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
-import java.security.Timestamp;
-
 public class ImageMeta {
 
     private String name;
