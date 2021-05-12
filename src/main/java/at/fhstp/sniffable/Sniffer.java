@@ -12,7 +12,7 @@ public class Sniffer implements Subject,java.io.Serializable {
 	protected int followercount=0;
 	protected List<String> followinglist = new ArrayList<String>();
 	protected int followingcount = 0;
-	protected List<String> tweets = new ArrayList<String>();
+	protected List<Tweet> tweets = new ArrayList<Tweet>();
 	protected List<String> timeline = new ArrayList<String>();
 
 	protected String name;
@@ -47,12 +47,19 @@ public class Sniffer implements Subject,java.io.Serializable {
 	}
 
 	public List<String> getTweets() {
-		Collections.reverse(this.tweets);
-		return this.tweets;
+		List<String> stringTweet = new ArrayList<String>();
+
+		for (Tweet tweet : this.tweets) {
+			stringTweet.add(tweet.getContent());
+			System.out.println(tweet.getContent());
+		}
+		Collections.reverse(stringTweet);
+		
+		return stringTweet;
 	}
 
 	public void addTweets(String tweet) {
-		this.tweets.add(tweet);
+		this.tweets.add(new Tweet(tweet));
 		updateFollowersTimeline(this.name+" hat getweetet:\n"+tweet);
 	} 
 	
