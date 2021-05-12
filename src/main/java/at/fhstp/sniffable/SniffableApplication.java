@@ -45,7 +45,7 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
-	public Sniffer accountsearch(String name, Model model) {
+	public static Sniffer accountsearch(String name, Model model) {
 		try {
 			Sniffer user;
 			Class.forName(DB_DRIVER);
@@ -63,7 +63,11 @@ public class SniffableApplication {
 
 				user = (Sniffer) object.readObject();
 					//Sniffer user = (Sniffer) rs.getObject("obj");
-				model.addAttribute("user", user);
+				if (model!=null)
+				{
+					model.addAttribute("user", user);
+				}
+				
 				//System.out.println(user.getName());
 				dbConnection.close();
 				return user;
@@ -77,7 +81,7 @@ public class SniffableApplication {
 		
 	}
 
-	public void updateObjH2(Sniffer user)
+	public static void updateObjH2(Sniffer user)
 	{
 		try {
 			Class.forName(DB_DRIVER);
@@ -103,8 +107,8 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer follower=accountsearch(ck.getValue(), model);
-				wanted.addNewFollower(follower);
-				follower.addNewFollowing(wanted);
+				wanted.addNewFollower(follower.getName());
+				follower.addNewFollowing(wanted.getName());
 				updateObjH2(wanted);
 				updateObjH2(follower);
 			  }
@@ -207,6 +211,22 @@ public class SniffableApplication {
 
 	private static String UPLOADED_FOLDER = "src\\upload-dir";
 
+	@PostMapping("/tweet")
+	public String tweet(@RequestParam("tweetarea") String tweet, Model model,HttpServletRequest request)
+	{
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				Sniffer user=accountsearch(ck.getValue(), model);
+				user.addTweets(tweet);
+				updateObjH2(user);
+			  }
+			}
+		}
+		return "redirect:/";
+	}
+
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
@@ -229,7 +249,7 @@ public class SniffableApplication {
 
         if (file.isEmpty() || !file.getContentType().startsWith("image")) {
             redirectAttributes.addFlashAttribute("message", "Invalid File");
-            return "redirect:uploadStatus";
+            return "redirect:/";
         } 
 
         try {
