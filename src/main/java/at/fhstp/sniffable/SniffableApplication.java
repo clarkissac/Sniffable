@@ -7,6 +7,7 @@ import java.sql.Connection;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.List;
 import java.sql.PreparedStatement;
 
 import javax.servlet.http.Cookie;
@@ -76,11 +77,6 @@ public class SniffableApplication {
 		return null;
 		
 	}
-	public void photos(Model model, String user,ImageMetaRepository imageMetaRepository) {
-		model.addAttribute("images",imageMetaRepository);
-
-		
-	}
 
 	public void updateObjH2(Sniffer user)
 	{
@@ -126,7 +122,7 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
-				model.addAttribute("images",imageMetaRepository.getMetaData());
+				model.addAttribute("images",imageMetaRepository.getImagePathsForUser(ck.getValue()));
 				return "own_account.html";
 				}
 				
@@ -139,6 +135,7 @@ public class SniffableApplication {
 	@PostMapping("/")
 	public String submit_search(@RequestParam("search_user") String name, Model model) {
 		accountsearch(name, model);
+		model.addAttribute("images",imageMetaRepository.getImagePathsForUser(name));
 		return "other_account.html";
 	}
 
@@ -211,7 +208,7 @@ public class SniffableApplication {
 		}
     }
 
-	private static String UPLOADED_FOLDER = "src\\upload-dir";
+	private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\upload-dir";
 
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -245,6 +242,7 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
+					System.out.println(path);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
 					redirectAttributes.addFlashAttribute("message",

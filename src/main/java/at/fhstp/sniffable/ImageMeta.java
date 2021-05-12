@@ -1,6 +1,8 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
+
+import org.springframework.http.codec.multipart.FilePart;
 public class ImageMeta {
 
     private String name;
@@ -52,7 +54,12 @@ public class ImageMeta {
      * @return String return the filePath
      */
     public Path getFilePath() {
-        return filePath;
+        return  filePath;
+    }
+    
+    public String getFilePathHtml() {
+        return  filePath.toString().substring(filePath.toString().indexOf("static\\") + 7,filePath.toString().length());
+        
     }
 
     /**
