@@ -1,6 +1,6 @@
 package at.fhstp.sniffable;
 
-public class Like {
+public class Like implements java.io.Serializable{
 
 
     private String user;

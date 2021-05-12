@@ -1,6 +1,6 @@
 package at.fhstp.sniffable;
 
-public class Comment {
+public class Comment implements java.io.Serializable{
 
     private String user;
     private String content;
