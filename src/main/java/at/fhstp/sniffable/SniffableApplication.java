@@ -208,11 +208,9 @@ public class SniffableApplication {
         Cookie[] cookies = request.getCookies();
 		if (cookies != null){
 			for (Cookie ck : cookies) {
-			  if ("username".equals(ck.getName())) {
-				accountsearch(ck.getValue(), model);
+			  if ("username".equals(ck.getName()) && accountsearch(ck.getValue(), model) != null) {
 				return "upload";
 				}
-				
 			  }
 		  	}
         return "uploadstatus";
