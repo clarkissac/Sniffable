@@ -45,6 +45,9 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
+	
+	
+	
 	public static Sniffer accountsearch(String name, Model model) {
 		try {
 			Sniffer user;
@@ -250,7 +253,7 @@ public class SniffableApplication {
 
 
     @PostMapping("/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String FileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
 
