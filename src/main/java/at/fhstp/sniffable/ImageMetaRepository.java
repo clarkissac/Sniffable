@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ImageMetaRepository {
+public class ImageMetaRepository implements java.io.Serializable{
 
     private List <ImageMeta> metaData = new ArrayList<ImageMeta>();
 
