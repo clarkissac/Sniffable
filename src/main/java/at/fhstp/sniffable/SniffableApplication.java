@@ -177,11 +177,9 @@ public class SniffableApplication {
 				accountsearch(ck.getValue(), model);
 				return "upload";
 				}
-				redirectAttributes.addFlashAttribute("message", "User not possible");
-				return "uploadstatus";
+				
 			  }
 		  	}
-		redirectAttributes.addFlashAttribute("message", "Please login!");
         return "uploadstatus";
     }
 
