@@ -187,11 +187,11 @@ public class SniffableApplication {
     public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
-		
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+		String mimeType = file.getContentType();
+        if (file.isEmpty() || !mimeType.startsWith("image")) {
+            redirectAttributes.addFlashAttribute("message", "Invalid File");
             return "redirect:uploadStatus";
-        }
+        } 
 
         try {
  			byte[] bytes = file.getBytes();
