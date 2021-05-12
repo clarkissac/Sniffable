@@ -77,6 +77,11 @@ public class SniffableApplication {
 		return null;
 		
 	}
+	public void photos(Model model, String user,ImageMetaRepository imageMetaRepository) {
+		model.addAttribute("images",imageMetaRepository);
+
+		
+	}
 
 	public void updateObjH2(Sniffer user)
 	{
@@ -122,6 +127,7 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
+				model.addAttribute("images",imageMetaRepository);
 				return "own_account.html";
 				}
 				
