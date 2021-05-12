@@ -45,9 +45,6 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
-	
-	
-	
 	public static Sniffer accountsearch(String name, Model model) {
 		try {
 			Sniffer user;
@@ -229,7 +226,24 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer user=accountsearch(ck.getValue(), model);
+				
 				user.addTweets(tweet);
+				updateObjH2(user);
+			  }
+			}
+		}
+		return "redirect:/";
+	}
+	@PostMapping("/like")
+	public String like(@RequestParam("image") ImageMeta image ,String tweet, Model model,HttpServletRequest request)
+	{
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				Sniffer user=accountsearch(ck.getValue(), model);
+				image.addLike(ck.getName());
+				
 				updateObjH2(user);
 			  }
 			}
@@ -253,7 +267,7 @@ public class SniffableApplication {
 
 
     @PostMapping("/upload")
-    public String FileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
 
