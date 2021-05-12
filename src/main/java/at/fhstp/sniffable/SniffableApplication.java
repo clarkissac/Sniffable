@@ -7,7 +7,6 @@ import java.sql.Connection;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.List;
 import java.sql.PreparedStatement;
 
 import javax.servlet.http.Cookie;
@@ -133,9 +132,14 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/")
-	public String submit_search(@RequestParam("search_user") String name, Model model) {
-		accountsearch(name, model);
+	public String submit_search(@RequestParam("search_user") String name, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		if(accountsearch(name, model) == null){
+					redirectAttributes.addFlashAttribute("message",
+                    "User not found");
+					return "searchStatus";
+		}
 		model.addAttribute("images",imageMetaRepository.getImagePathsForUser(name));
+
 		return "other_account.html";
 	}
 
