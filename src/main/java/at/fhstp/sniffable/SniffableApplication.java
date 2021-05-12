@@ -223,7 +223,7 @@ public class SniffableApplication {
 
 
     @PostMapping("/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String FileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
 
