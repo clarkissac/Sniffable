@@ -4,8 +4,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.codec.multipart.FilePart;
-public class ImageMeta {
+public class ImageMeta implements java.io.Serializable{
 
     private String name;
     private String user;

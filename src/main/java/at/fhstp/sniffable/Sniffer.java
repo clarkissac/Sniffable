@@ -51,7 +51,6 @@ public class Sniffer implements Subject,java.io.Serializable {
 
 		for (Tweet tweet : this.tweets) {
 			stringTweet.add(tweet.getContent());
-			System.out.println(tweet.getContent());
 		}
 		Collections.reverse(stringTweet);
 		

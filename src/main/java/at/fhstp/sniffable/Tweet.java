@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Tweet implements java.io.Serializable{
 
+    private static final long serialVersionUID = 1L;
     private String content;
     private long timestamp;
     private List<Comment> comments = new ArrayList<Comment>();

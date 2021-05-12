@@ -1,6 +1,6 @@
 package at.fhstp.sniffable;
 
-public class Like {
+public class Like implements java.io.Serializable{
 
 
     private String user;
@@ -21,24 +21,11 @@ public class Like {
     }
 
     /**
-     * @param user the user to set
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
      * @return long return the timestamp
      */
     public long getTimestamp() {
         return timestamp;
     }
 
-    /**
-     * @param timestamp the timestamp to set
-     */
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
 }
