@@ -3,7 +3,7 @@ package at.fhstp.sniffable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-public class ImageMeta {
+public class ImageMeta implements java.io.Serializable{
 
     private String name;
     private String user;
