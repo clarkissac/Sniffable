@@ -229,7 +229,7 @@ public class SniffableApplication {
 
         if (file.isEmpty() || !file.getContentType().startsWith("image")) {
             redirectAttributes.addFlashAttribute("message", "Invalid File");
-            return "redirect:uploadStatus";
+            return "redirect:/";
         } 
 
         try {
