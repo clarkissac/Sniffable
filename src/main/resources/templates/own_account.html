@@ -64,10 +64,10 @@
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                     </div>
-                    <div class="row">
-                        <tr th:each = "image : ${images.getMetaData}">           
+                    <div class="row" th:with="count=0">
+                        <tr th:each = "image : ${images}">           
                             <td th:with="count=${count + 1}" th:text="${count}"></td>
-                            <td><img th:src="@{${image.getFilePath}}" 
+                            <td><img th:src="@{${image.getFilePath}}"
                             class="card img-fluid" style="width:300px" alt=""/></td>
                         </tr>
                            <!--<td><a th:href="@{/image/imageDetails(id=${imageGallery.id})}" class="btn btn-info text-right" target="_blank">View</a></td>

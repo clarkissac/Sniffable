@@ -126,7 +126,7 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
-				model.addAttribute("images",imageMetaRepository);
+				model.addAttribute("images",imageMetaRepository.getMetaData());
 				return "own_account.html";
 				}
 				
