@@ -1,7 +1,8 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
-import java.security.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageMeta {
 
@@ -10,6 +11,8 @@ public class ImageMeta {
     private long size;
     private Path filePath;
     private long timestamp;
+    private List<Comment> comments = new ArrayList<Comment>();
+    private List<Like> likes = new ArrayList<Like>();
 
     public ImageMeta(String name, long size, Path filePath, String user){
 
@@ -92,6 +95,56 @@ public class ImageMeta {
      */
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+
+    /**
+     * @return List<comment> return the comments
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @return List<like> return the likes
+     */
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void addComment(String user, String content){
+        comments.add(new Comment(user, content));
+    }
+
+    public void removeComment(String user, String content){
+        
+        for (Comment comment : comments) {
+            if(comment.getUser().equals(user) && comment.getContent().equals(content)){
+                comments.remove(comment);
+            }
+        }
+    }
+
+    public void addLike(String user) {
+        
+        for (Like like : likes) {
+            if(like.getUser().equals(user)){
+                likes.add(new Like(user));
+            }
+            
+        }
+        
+    }
+    
+    public void removeLike(String user) {
+        
+        for (Like like : likes) {
+            if(like.getUser().equals(user)){
+                likes.remove(like);
+            }
+            
+        }
+        
     }
 
 }
