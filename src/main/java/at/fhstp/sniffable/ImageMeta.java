@@ -1,6 +1,7 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
+import java.security.Timestamp;
 
 public class ImageMeta {
 
@@ -8,6 +9,7 @@ public class ImageMeta {
     private String user;
     private long size;
     private Path filePath;
+    private long timestamp;
 
     public ImageMeta(String name, long size, Path filePath, String user){
 
@@ -15,9 +17,11 @@ public class ImageMeta {
         this.size = size;
         this.user = user;
         this.filePath = filePath;
+        timestamp = System.currentTimeMillis();
 
     }
 
+    
     /**
      * @return String return the name
      */
@@ -73,6 +77,21 @@ public class ImageMeta {
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+
+    /**
+     * @return long return the timestamp
+     */
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * @param timestamp the timestamp to set
+     */
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 }

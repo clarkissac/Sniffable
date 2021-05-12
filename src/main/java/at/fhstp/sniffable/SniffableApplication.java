@@ -1,6 +1,7 @@
 package at.fhstp.sniffable;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ public class SniffableApplication {
     static String DB_CONNECTION = "jdbc:h2:mem:testdb";
     static String DB_USER = "sa";
     static String DB_PASSWORD = "";
+
+	@Autowired
 	ImageMetaRepository imageMetaRepository;
 
 	public static void main(String[] args) {
@@ -236,7 +240,7 @@ public class SniffableApplication {
  			byte[] bytes = file.getBytes();
 			for (Cookie ck : cookies) {
 				if ("username".equals(ck.getName())) {
-					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + file.getOriginalFilename());
+					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
