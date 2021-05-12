@@ -207,6 +207,22 @@ public class SniffableApplication {
 
 	private static String UPLOADED_FOLDER = "src\\upload-dir";
 
+	@PostMapping("/tweet")
+	public String tweet(@RequestParam("tweetarea") String tweet, Model model,HttpServletRequest request)
+	{
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				Sniffer user=accountsearch(ck.getValue(), model);
+				user.addTweets(tweet);
+				updateObjH2(user);
+			  }
+			}
+		}
+		return "redirect:/";
+	}
+
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 

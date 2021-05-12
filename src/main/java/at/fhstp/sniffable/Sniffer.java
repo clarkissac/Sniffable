@@ -11,6 +11,7 @@ public class Sniffer implements Subject,java.io.Serializable {
 	protected int followercount=0;
 	protected List<Sniffer> followinglist = new ArrayList<Sniffer>();
 	protected int followingcount = 0;
+	protected List<String> tweets = new ArrayList<String>();
 
 	protected String name;
 	protected String password;
@@ -34,7 +35,14 @@ public class Sniffer implements Subject,java.io.Serializable {
 		//this.handle = "#" + handle;
 
 	}
+	public List<String> getTweets() {
+		return this.tweets;
+	}
 
+	public void addTweets(String tweet) {
+		this.tweets.add(tweet);
+	} 
+	
 	public int getFollowercount() {
 		return this.followercount;
 	}
