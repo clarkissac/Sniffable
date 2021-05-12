@@ -131,8 +131,13 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/")
-	public String submit_search(@RequestParam("search_user") String name, Model model) {
-		accountsearch(name, model);
+	public String submit_search(@RequestParam("search_user") String name, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		if(accountsearch(name, model) == null){
+					redirectAttributes.addFlashAttribute("message",
+                    "User not found");
+					return "searchStatus";
+		}
+
 		return "other_account.html";
 	}
 
