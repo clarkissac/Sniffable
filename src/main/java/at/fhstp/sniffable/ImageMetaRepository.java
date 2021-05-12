@@ -2,7 +2,6 @@ package at.fhstp.sniffable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -25,7 +24,7 @@ public class ImageMetaRepository {
         return metaData;
     }
 
-    public List<Path> getImagePaths(String user){
+    public List<Path> getImagePathsForUser(String user){
 
         List <Path> userPaths = new ArrayList<Path>();
         for(ImageMeta meta : metaData){
