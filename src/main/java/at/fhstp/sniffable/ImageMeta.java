@@ -1,7 +1,8 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
-import org.springframework.http.codec.multipart.FilePart;
+import java.util.ArrayList;
+import java.util.List;
 public class ImageMeta {
 
     private String name;
