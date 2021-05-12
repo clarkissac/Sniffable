@@ -9,7 +9,9 @@ public class Sniffer implements Subject,java.io.Serializable {
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	protected List<Sniffer> followerlist = new ArrayList<Sniffer>();
 	protected int followercount=0;
-	
+	protected List<Sniffer> followinglist = new ArrayList<Sniffer>();
+	protected int followingcount = 0;
+
 	protected String name;
 	protected String password;
 	protected String dogname;
@@ -33,12 +35,28 @@ public class Sniffer implements Subject,java.io.Serializable {
 
 	}
 
+	public int getFollowercount() {
+		return this.followercount;
+	}
+
+	public int getFollowingcount()
+	{
+		return this.followingcount;
+	}
+	
 	public void addNewFollower(Sniffer follower)
 	{
 		this.followerlist.add(follower);
 		this.followercount+=1;
 	}
 
+	public void addNewFollowing(Sniffer following)
+	{
+		this.followinglist.add(following);
+		this.followingcount+=1;
+	}
+
+	
 	public String getName() {
 		return name;
 	}

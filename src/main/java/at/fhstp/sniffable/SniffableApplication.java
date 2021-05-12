@@ -40,8 +40,9 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
-	public void accountsearch(String name, Model model) {
+	public Sniffer accountsearch(String name, Model model) {
 		try {
+			Sniffer user;
 			Class.forName(DB_DRIVER);
 			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
 			String selectQuery = "select obj from Sniffers WHERE username=?";
@@ -55,22 +56,56 @@ public class SniffableApplication {
 				if (buf != null)
 					object = new ObjectInputStream(new ByteArrayInputStream(buf));
 
-				Sniffer user = (Sniffer) object.readObject();
+				user = (Sniffer) object.readObject();
 					//Sniffer user = (Sniffer) rs.getObject("obj");
 				model.addAttribute("user", user);
 				//System.out.println(user.getName());
+				dbConnection.close();
+				return user;
 			}
+			
+		}
+		catch (Exception e)   {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+
+	public void updateObjH2(Sniffer user)
+	{
+		try {
+			Class.forName(DB_DRIVER);
+			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+			String selectQuery = "Update Sniffers SET obj = ? WHERE username=?; ";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
+			preparedStatement.setObject(1,user);
+			preparedStatement.setObject(2,user.getName());
+			preparedStatement.executeUpdate();
 			dbConnection.close();
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@PostMapping("/follow")
-	public String follownow(@RequestParam("hidden_wanted_user") String wantedUser,HttpServletRequest request)
+	public String follownow(@RequestParam("hidden_wanted_user") String wantedUser,HttpServletRequest request, Model model)
 	{
+		Sniffer wanted = accountsearch(wantedUser, model);
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				Sniffer follower=accountsearch(ck.getValue(), model);
+				wanted.addNewFollower(follower);
+				follower.addNewFollowing(wanted);
+				updateObjH2(wanted);
+				updateObjH2(follower);
+			  }
+			}
+		}
+		model.addAttribute("user", wanted);
 		return "other_account.html";	
 	}
 	@GetMapping("/")
