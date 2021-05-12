@@ -201,6 +201,7 @@ public class SniffableApplication {
     }
 
 	private static String UPLOADED_FOLDER = "src\\upload-dir";
+	private final double MAXFILESIZE = 5 * 1024 *1024;
 
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -216,12 +217,15 @@ public class SniffableApplication {
         return "uploadstatus";
     }
 
+
     @PostMapping("/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
 		String mimeType = file.getContentType();
-        if (file.isEmpty() || !mimeType.startsWith("image")) {
+
+
+        if (file.isEmpty() || !mimeType.startsWith("image") || file.getSize() > MAXFILESIZE) {
             redirectAttributes.addFlashAttribute("message", "Invalid File");
             return "redirect:uploadStatus";
         } 
