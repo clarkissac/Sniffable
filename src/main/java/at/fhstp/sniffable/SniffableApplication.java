@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
-import javax.security.auth.login.AccountLockedException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,11 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 
 
 @SpringBootApplication
@@ -165,38 +165,53 @@ public class SniffableApplication {
 		}
     }
 
-
-	//Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "src\\upload-dir";
+	private static String UPLOADED_FOLDER = "src\\upload-dir";
 
     @GetMapping("/upload")
-    public String index() {
-        return "upload";
+    public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+        Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				accountsearch(ck.getValue(), model);
+				return "upload";
+				}
+				redirectAttributes.addFlashAttribute("message", "User not possible");
+				return "uploadstatus";
+			  }
+		  	}
+		redirectAttributes.addFlashAttribute("message", "Please login!");
+        return "uploadstatus";
     }
 
-    @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    @PostMapping("/upload")
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
+		Cookie[] cookies = request.getCookies();
+		
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "redirect:uploadStatus";
         }
 
         try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-
-            redirectAttributes.addFlashAttribute("message",
+ 			byte[] bytes = file.getBytes();
+			for (Cookie ck : cookies) {
+				if ("username".equals(ck.getName())) {
+					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + file.getOriginalFilename());
+					Files.createDirectories(path.getParent());
+					Files.write(path, bytes);
+					redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
+				}
+			}
+        
         } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("message", "Upload failed");
             e.printStackTrace();
         }
-
+        
         return "redirect:/uploadStatus";
     }
 
@@ -204,4 +219,5 @@ public class SniffableApplication {
     public String uploadStatus() {
         return "uploadStatus";
     }
+
 }
