@@ -49,7 +49,7 @@ public class Sniffer implements Subject,java.io.Serializable {
 	public List<String> getTweets() {
 		List<String> stringTweet = new ArrayList<String>();
 
-		for (Tweet tweet : tweets) {
+		for (Tweet tweet : this.tweets) {
 			stringTweet.add(tweet.getContent());
 			System.out.println(tweet.getContent());
 		}

@@ -3,7 +3,7 @@ package at.fhstp.sniffable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tweet {
+public class Tweet implements java.io.Serializable{
 
     private String content;
     private long timestamp;
