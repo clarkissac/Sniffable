@@ -38,13 +38,16 @@ public class Tweet implements java.io.Serializable{
 
     public void addLike(String user) {
         
+
+        boolean isLiked = false;
         for (Like like : likes) {
             if(like.getUser().equals(user)){
-                likes.add(new Like(user));
-            }
-            
+                isLiked = true;
+            }      
         }
-        
+        if(!isLiked){
+            likes.add(new Like(user));
+        }
     }
     
     public void removeLike(String user) {

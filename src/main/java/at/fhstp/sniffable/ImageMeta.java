@@ -133,13 +133,16 @@ public class ImageMeta implements java.io.Serializable{
     public void addLike(String user) 
     {
         likes.add(new Like(user));
-        
-        /*for (Like like : likes) {
-            if(!like.getUser().equals(user)){
-                likes.add(new Like(user));
-            }
-            
-        }*/
+
+        boolean isLiked = false;
+        for (Like like : likes) {
+            if(like.getUser().equals(user)){
+                isLiked = true;
+            }      
+        }
+        if(!isLiked){
+            likes.add(new Like(user));
+        }
         
     }
     
