@@ -312,6 +312,7 @@ public class SniffableApplication {
 	public String share(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model, HttpServletRequest request)
 	{
 		if(type ==1){
+			ImageMeta newMeta =null;
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
 				if (meta.getFilePath().toString().equals(imagepath))
@@ -323,12 +324,14 @@ public class SniffableApplication {
 								Sniffer user = accountsearch(meta.getUser(), model);
 								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
 								updateObjH2(user);
-								ImageMeta newMeta = new ImageMeta(meta.getName(), meta.getSize(), meta.getFilePath(), ck.getValue());
-								imageMetaRepository.addMeta(newMeta);
+								newMeta = new ImageMeta(meta.getName(), meta.getSize(), meta.getFilePath(), ck.getValue());
 							}
 						}
 					}
 				}
+			}
+			if (newMeta != null){
+				imageMetaRepository.addMeta(newMeta);
 			}
 		}
 		if (type == 0) {
