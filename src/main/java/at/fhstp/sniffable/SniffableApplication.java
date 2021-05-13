@@ -323,7 +323,6 @@ public class SniffableApplication {
 							if ("username".equals(ck.getName())) {
 								Sniffer user = accountsearch(meta.getUser(), model);
 								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
-								updateObjH2(user);
 								newMeta = new ImageMeta(meta.getName(), meta.getSize(), meta.getFilePath(), ck.getValue());
 								updateObjH2(user);
 
