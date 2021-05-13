@@ -47,15 +47,22 @@ public class Sniffer implements Subject,java.io.Serializable {
 		}
 	}
 
-	public List<String> getTweets() {
-		List<String> stringTweet = new ArrayList<String>();
-
-		for (Tweet tweet : this.tweets) {
-			stringTweet.add(tweet.getContent());
+	public List<Tweet> getTweets() {
+		List<Tweet> returntweets = tweets;
+		Collections.reverse(returntweets);
+		return returntweets;
+	}
+	public Tweet searchTweet(String id){
+		for (Tweet tweet : tweets) {
+			if (tweet.getContent()[1].compareTo(id) == 1) {
+				return tweet;
+			}
+			else{
+				return new Tweet();
+			}
 		}
-		Collections.reverse(stringTweet);
-		
-		return stringTweet;
+
+
 	}
 
 	public void addTweets(String tweet) {

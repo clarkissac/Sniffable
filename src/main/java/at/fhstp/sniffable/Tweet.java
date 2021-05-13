@@ -2,10 +2,12 @@ package at.fhstp.sniffable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Tweet implements java.io.Serializable{
 
     private static final long serialVersionUID = 1L;
+    private String id;
     private String content;
     private long timestamp;
     private List<Comment> comments = new ArrayList<Comment>();
@@ -15,9 +17,14 @@ public class Tweet implements java.io.Serializable{
 
     public Tweet(String content){
         this.content = content;
+        this.id = UUID.randomUUID().toString();
         timestamp = System.currentTimeMillis();
 
     }
+
+    public Tweet() {
+    }
+    
 
     public List<Like> getLikes() {
         return likes;
@@ -68,8 +75,8 @@ public class Tweet implements java.io.Serializable{
         this.content = content;
     }
     
-     public String getContent() {
-        return content;
+     public String[] getContent() {
+        return new String[] {content,id};
     }
 
 
