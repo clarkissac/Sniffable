@@ -1,16 +1,20 @@
 package at.fhstp.sniffable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class Sniffer implements Subject,java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	//protected List<Observer> observers = new ArrayList<Observer>();
-	protected List<Sniffer> followerlist = new ArrayList<Sniffer>();
+	protected List<String> followerlist = new ArrayList<String>();
 	protected int followercount=0;
-	protected List<Sniffer> followinglist = new ArrayList<Sniffer>();
+	protected List<String> followinglist = new ArrayList<String>();
 	protected int followingcount = 0;
+	protected List<Tweet> tweets = new ArrayList<Tweet>();
+
+	protected List<String> timeline = new ArrayList<String>();
 
 	protected String name;
 	protected String password;
@@ -31,9 +35,42 @@ public class Sniffer implements Subject,java.io.Serializable {
 		this.lastname = lastname;
 		this.dogname = dogname;
 		this.password = password;
-		//this.handle = "#" + handle;
-
 	}
+
+	public void updateFollowersTimeline(String event)
+	{
+		for(String followername:this.followerlist)
+		{
+			Sniffer follower=SniffableApplication.accountsearch(followername, null);
+			follower.addToTimeline(event);
+			SniffableApplication.updateObjH2(follower);
+		}
+	}
+
+	public List<String> getTweets() {
+		List<String> stringTweet = new ArrayList<String>();
+
+		for (Tweet tweet : this.tweets) {
+			stringTweet.add(tweet.getContent());
+		}
+		Collections.reverse(stringTweet);
+		
+		return stringTweet;
+	}
+
+	public void addTweets(String tweet) {
+		this.tweets.add(new Tweet(tweet));
+		updateFollowersTimeline(this.name+" hat getweetet:\n"+tweet);
+	} 
+	
+	public List<String> getTimeline() {
+		Collections.reverse(this.timeline);
+		return this.timeline;
+	}
+
+	public void addToTimeline(String event) {
+		this.timeline.add(event);
+	} 
 
 	public int getFollowercount() {
 		return this.followercount;
@@ -44,16 +81,35 @@ public class Sniffer implements Subject,java.io.Serializable {
 		return this.followingcount;
 	}
 	
-	public void addNewFollower(Sniffer follower)
+	public void addNewFollower(String follower)
 	{
-		this.followerlist.add(follower);
-		this.followercount+=1;
+
+		boolean isfollower = false;
+        for (String follow : followerlist) {
+            if(follow.equals(follower)){
+                isfollower = true;
+            }      
+        }
+        if(!isfollower){
+            this.followerlist.add(follower);
+			this.followercount+=1;
+        }
+		
 	}
 
-	public void addNewFollowing(Sniffer following)
+	public void addNewFollowing(String following)
 	{
-		this.followinglist.add(following);
-		this.followingcount+=1;
+		boolean isfollowing = false;
+        for (String follower : followinglist) {
+            if(follower.equals(following)){
+                isfollowing = true;
+            }      
+        }
+        if(!isfollowing){
+            this.followinglist.add(following);
+			this.followingcount+=1;
+        }
+		
 	}
 
 	

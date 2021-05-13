@@ -45,7 +45,7 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		//test
 	}
-	public Sniffer accountsearch(String name, Model model) {
+	public static Sniffer accountsearch(String name, Model model) {
 		try {
 			Sniffer user;
 			Class.forName(DB_DRIVER);
@@ -63,7 +63,11 @@ public class SniffableApplication {
 
 				user = (Sniffer) object.readObject();
 					//Sniffer user = (Sniffer) rs.getObject("obj");
-				model.addAttribute("user", user);
+				if (model!=null)
+				{
+					model.addAttribute("user", user);
+				}
+				
 				//System.out.println(user.getName());
 				dbConnection.close();
 				return user;
@@ -77,7 +81,7 @@ public class SniffableApplication {
 		
 	}
 
-	public void updateObjH2(Sniffer user)
+	public static void updateObjH2(Sniffer user)
 	{
 		try {
 			Class.forName(DB_DRIVER);
@@ -103,8 +107,8 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer follower=accountsearch(ck.getValue(), model);
-				wanted.addNewFollower(follower);
-				follower.addNewFollowing(wanted);
+				wanted.addNewFollower(follower.getName());
+				follower.addNewFollowing(wanted.getName());
 				updateObjH2(wanted);
 				updateObjH2(follower);
 			  }
@@ -122,6 +126,7 @@ public class SniffableApplication {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
 				model.addAttribute("images",imageMetaRepository.getImagePathsForUser(ck.getValue()));
+				model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(ck.getValue()));
 				return "own_account.html";
 				}
 				
@@ -139,6 +144,7 @@ public class SniffableApplication {
 					return "searchStatus";
 		}
 		model.addAttribute("images",imageMetaRepository.getImagePathsForUser(name));
+		model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(name));
 
 		return "other_account.html";
 	}
@@ -214,6 +220,90 @@ public class SniffableApplication {
 
 	private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\upload-dir";
 
+	@PostMapping("/tweet")
+	public String tweet(@RequestParam("tweetarea") String tweet, Model model,HttpServletRequest request)
+	{
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie ck : cookies) {
+			  if ("username".equals(ck.getName())) {
+				Sniffer user=accountsearch(ck.getValue(), model);
+				
+				user.addTweets(tweet);
+				updateObjH2(user);
+			  }
+			}
+		}
+		return "redirect:/";
+	}
+	@PostMapping("/like")
+	public String like(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	{
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							meta.addLike(ck.getValue());
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
+							updateObjH2(user);
+						}
+					}
+				}
+			}
+		}
+		return "redirect:/";
+	}
+
+	@PostMapping("/comment")
+	public String comment(@RequestParam("image") String imagepath, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	{
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							meta.addComment(ck.getValue(), comment);
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") kommentiert: "+comment);
+							updateObjH2(user);
+						}
+					}
+				}
+			}
+		}
+		return "redirect:/";
+	}
+
+	@PostMapping("/share")
+	public String share(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	{
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
+							updateObjH2(user);
+						}
+					}
+				}
+			}
+		}
+		return "redirect:/";
+	}
+
     @GetMapping("/upload")
     public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
@@ -246,7 +336,7 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
-					System.out.println(path);
+					//System.out.println(path);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
 					

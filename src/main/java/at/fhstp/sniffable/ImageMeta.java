@@ -1,15 +1,18 @@
 package at.fhstp.sniffable;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.http.codec.multipart.FilePart;
-public class ImageMeta {
+public class ImageMeta implements java.io.Serializable{
 
     private String name;
     private String user;
     private long size;
     private Path filePath;
     private long timestamp;
+    private List<Comment> comments = new ArrayList<Comment>();
+    private List<Like> likes = new ArrayList<Like>();
 
     public ImageMeta(String name, long size, Path filePath, String user){
 
@@ -97,6 +100,59 @@ public class ImageMeta {
      */
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+
+    /**
+     * @return List<comment> return the comments
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @return List<like> return the likes
+     */
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void addComment(String user, String content){
+        comments.add(new Comment(user, content));
+    }
+
+    public void removeComment(String user, String content){
+        
+        for (Comment comment : comments) {
+            if(comment.getUser().equals(user) && comment.getContent().equals(content)){
+                comments.remove(comment);
+            }
+        }
+    }
+
+    public void addLike(String user) 
+    {
+        boolean isLiked = false;
+        for (Like like : likes) {
+            if(like.getUser().equals(user)){
+                isLiked = true;
+            }      
+        }
+        if(!isLiked){
+            likes.add(new Like(user));
+        }
+        
+    }
+    
+    public void removeLike(String user) {
+        
+        for (Like like : likes) {
+            if(like.getUser().equals(user)){
+                likes.remove(like);
+            }
+            
+        }
+        
     }
 
 }

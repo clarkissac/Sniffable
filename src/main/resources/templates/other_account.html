@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Spring Boot Form Demo</title>
+<title>Sniffable - ein Soziales Netzwerk für Hunde</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 <script language="javascript" type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -31,7 +31,7 @@
                             <input type="submit" name="bt_follow" id="bt_follow" value="Follow">
                         </li>
                         <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                            <h5 class="font-weight-bold mb-0 d-block"><span th:text="${imagescount}" th:remove="tag"></h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
                         </li>
                         <li class="list-inline-item">
                             <h5 class="font-weight-bold mb-0 d-block"><span th:text="${user.followercount}" th:remove="tag"></span></h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
@@ -42,26 +42,36 @@
                     </ul>
                 </div>
                 </form><form action="/"  method="POST">
-                <div class="px-4 py-3">
-                    <h5 class="mb-0">About</h5>
-                    <div class="p-4 rounded shadow-sm bg-light">
-                        <p class="font-italic mb-0" th:text="'Hi my name is ' + ${user.dogname}"></p>
-                    </div>
-                </div>
-                <div class="py-4 px-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 pl-lg-1"><img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="py-4 px-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="mb-0">Recent photos and tweets</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                        </div>
+                        <div class="row">
+                            <table>
+                                <tr th:each="tweet : ${user.getTweets}">
+                                    <div class="px-4 py-3" style="width:100%;">
+                                        <h6 class="mb-0">Hat getweetet</h6>
+                                        <div class="p-4 rounded shadow-sm bg-light">
+                                            <p class="font-italic mb-0" th:text="${tweet}"></p>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </table>
+                            </div>
+                        </form>
+                        <div class="row" th:with="count=0">
+                            <tr th:each = "image : ${images}">
+                                <td><img th:src="@{${image.getFilePathHtml}}"
+                                class="card img-fluid" style="width:100%;" alt=""/><br>
+                                <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
+                                <form action="/comment" method="POST"><input type="text" name="comment" placeholder="Kommentar..."><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
+                                <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td>
+                            </tr>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-</body>
-</html>
+    </form>
+    </body>
+    </html>
