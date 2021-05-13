@@ -229,7 +229,7 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam("image") String imagepath, @RequestParam("type") int type, @RequestParam("id") String tweetid, Model model,HttpServletRequest request)
+	public String like(@RequestParam(value ="image", required = false) String imagepath, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
 		if (type == 1) {
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
@@ -256,9 +256,10 @@ public class SniffableApplication {
 						for (Cookie ck : cookies) {
 							if ("username".equals(ck.getName())) {
 								System.out.println(ck.getValue());
-								Sniffer user=accountsearch(ck.getValue(), model);
+								Sniffer user = accountsearch(ck.getValue(), model);
 								Tweet tweet = user.searchTweet(tweetid);
 								tweet.addLike(ck.getValue());
+								user.addToTimeline(ck.getValue()+" hat dein Tweet ("+tweet.getContent()[0]+") geliket");
 								updateObjH2(user);
 							}
 						}

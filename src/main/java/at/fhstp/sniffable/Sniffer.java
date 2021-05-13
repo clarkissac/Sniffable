@@ -55,12 +55,14 @@ public class Sniffer implements Subject,java.io.Serializable {
 	public Tweet searchTweet(String id){
 		for (Tweet tweet : tweets) {
 			if (tweet.getContent()[1].compareTo(id) == 1) {
+				System.out.println(tweet.getContent()[1]);
 				return tweet;
 			}
 			else{
 				return new Tweet();
 			}
 		}
+		return new Tweet();
 
 
 	}
