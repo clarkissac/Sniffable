@@ -230,7 +230,7 @@ public class SniffableApplication {
 
 
     @PostMapping("/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model,  HttpServletRequest request) {
 
 		Cookie[] cookies = request.getCookies();
 
@@ -249,13 +249,12 @@ public class SniffableApplication {
 					System.out.println(path);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
-					redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+					
 				}
 			}
         
         } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("message", "Upload failed");
+            
             e.printStackTrace();
         }
         
