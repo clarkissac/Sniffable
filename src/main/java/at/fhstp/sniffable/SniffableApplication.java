@@ -237,24 +237,40 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	public String like(@RequestParam("image") String imagepath, @RequestParam("type") int type, @RequestParam("id") String tweetid, Model model,HttpServletRequest request)
 	{
-		for (ImageMeta meta:imageMetaRepository.getMetaData())
-		{
-			if (meta.getFilePath().toString().equals(imagepath))
+		if (type == 1) {
+			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
-				Cookie[] cookies = request.getCookies();
-				if (cookies != null){
-					for (Cookie ck : cookies) {
-						if ("username".equals(ck.getName())) {
-							meta.addLike(ck.getValue());
-							Sniffer user=accountsearch(meta.getUser(), model);
-							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
-							updateObjH2(user);
+				if (meta.getFilePath().toString().equals(imagepath))
+				{
+					Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								meta.addLike(ck.getValue());
+								Sniffer user=accountsearch(meta.getUser(), model);
+								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
+								updateObjH2(user);
+							}
 						}
 					}
 				}
 			}
+		}
+		if (type == 0) {
+			Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								System.out.println(ck.getValue());
+								Sniffer user=accountsearch(ck.getValue(), model);
+								Tweet tweet = user.searchTweet(tweetid);
+								tweet.addLike(ck.getValue());
+								updateObjH2(user);
+							}
+						}
+					}
 		}
 		return "redirect:/";
 	}
