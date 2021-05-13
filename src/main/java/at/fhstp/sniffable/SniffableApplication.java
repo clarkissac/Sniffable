@@ -336,9 +336,12 @@ public class SniffableApplication {
 							if ("username".equals(ck.getName())) {
 								//System.out.println(ck.getValue());
 								Sniffer user = accountsearch(username, model);
+								Sniffer newuser = accountsearch(ck.getValue(), model);
 								Tweet tweet = user.searchTweet(tweetid);
+								newuser.addTweets("Shared tweet von " + username + ": " + tweet.getContent()[0]);
 								user.addToTimeline(ck.getValue()+" hat dein Tweet ("+tweet.getContent()[0]+") geshared");
 								updateObjH2(user);
+								updateObjH2(newuser);
 							}
 						}
 					}
