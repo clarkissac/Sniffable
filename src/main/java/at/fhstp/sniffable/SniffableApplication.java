@@ -325,6 +325,8 @@ public class SniffableApplication {
 								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
 								updateObjH2(user);
 								newMeta = new ImageMeta(meta.getName(), meta.getSize(), meta.getFilePath(), ck.getValue());
+								updateObjH2(user);
+
 							}
 						}
 					}
