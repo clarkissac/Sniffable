@@ -269,7 +269,7 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/comment")
-	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = true) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
 	{
 		if(type == 1){
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
