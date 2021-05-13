@@ -229,7 +229,8 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
+	public String like(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, 
+	@RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
 		if (type == 1) {
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
@@ -269,7 +270,8 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/comment")
-	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, 
+	@RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
 	{
 		if(type == 1){
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
@@ -309,7 +311,8 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/share")
-	public String share(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
+	public String share(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type,
+	 @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
 		if(type ==1){
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
