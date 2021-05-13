@@ -62,17 +62,13 @@ public class SniffableApplication {
 					object = new ObjectInputStream(new ByteArrayInputStream(buf));
 
 				user = (Sniffer) object.readObject();
-					//Sniffer user = (Sniffer) rs.getObject("obj");
 				if (model!=null)
 				{
 					model.addAttribute("user", user);
 				}
-				
-				//System.out.println(user.getName());
 				dbConnection.close();
 				return user;
 			}
-			
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
@@ -129,8 +125,6 @@ public class SniffableApplication {
 				model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(ck.getValue()));
 				return "own_account.html";
 				}
-				
-				//return "welcome.html";
 			  }
 		  	}
 			return "index.html";
@@ -178,8 +172,7 @@ public class SniffableApplication {
 		catch (Exception e)   {
 			e.printStackTrace();
 		}
-		
-		return "register_success.html";
+		return "redirect:/";
 	}
 	@GetMapping("/login")
 	public String getForm(){
@@ -303,23 +296,8 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 
-    @GetMapping("/upload")
-    public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-
-        Cookie[] cookies = request.getCookies();
-		if (cookies != null){
-			for (Cookie ck : cookies) {
-			  if ("username".equals(ck.getName()) && accountsearch(ck.getValue(), model) != null) {
-				return "upload";
-				}
-			  }
-		  	}
-        return "uploadstatus";
-    }
-
-
     @PostMapping("/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) throws InterruptedException {
 
 		Cookie[] cookies = request.getCookies();
 
@@ -347,13 +325,8 @@ public class SniffableApplication {
             redirectAttributes.addFlashAttribute("message", "Upload failed");
             e.printStackTrace();
         }
-        
+		Thread.sleep(1000);
         return "redirect:/";
-    }
-
-    @GetMapping("/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
     }
 
 }
