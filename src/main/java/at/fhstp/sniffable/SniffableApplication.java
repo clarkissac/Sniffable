@@ -334,7 +334,6 @@ public class SniffableApplication {
 					if (cookies != null){
 						for (Cookie ck : cookies) {
 							if ("username".equals(ck.getName())) {
-								//System.out.println(ck.getValue());
 								Sniffer user = accountsearch(username, model);
 								Sniffer newuser = accountsearch(ck.getValue(), model);
 								Tweet tweet = user.searchTweet(tweetid);
