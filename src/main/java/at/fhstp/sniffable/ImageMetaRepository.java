@@ -33,8 +33,17 @@ public class ImageMetaRepository implements java.io.Serializable{
             }
         }
         return userpictures;
+    }
 
-
+    public int getImagePathCountForUser(String user)
+    {
+        int counter=0;
+        for(ImageMeta meta : metaData){
+            if(meta.getUser().equals(user)){
+                counter++;
+            }
+        }
+        return counter;
     }
 
 

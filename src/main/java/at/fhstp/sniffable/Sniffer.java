@@ -13,6 +13,7 @@ public class Sniffer implements Subject,java.io.Serializable {
 	protected List<String> followinglist = new ArrayList<String>();
 	protected int followingcount = 0;
 	protected List<Tweet> tweets = new ArrayList<Tweet>();
+
 	protected List<String> timeline = new ArrayList<String>();
 
 	protected String name;

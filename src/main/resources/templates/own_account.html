@@ -26,7 +26,7 @@
                 <div class="bg-light p-4 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                            <h5 class="font-weight-bold mb-0 d-block"><span th:text="${imagescount}" th:remove="tag"></h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
                         </li>
                         <li class="list-inline-item">
                             <h5 class="font-weight-bold mb-0 d-block"><span th:text="${user.followercount}" th:remove="tag"></span></h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
@@ -81,15 +81,15 @@
                         <tr th:each = "image : ${images}">
                             <td><img th:src="@{${image.getFilePathHtml}}"
                             class="card img-fluid" style="width:100%;" alt=""/><br>
-                            <form action="/like" method="POST"><input type="submit" value="Like">
-                            </form><form action="/comment" method="POST"></form><input type="text" placeholder="Kommentar..."><input type="submit" value="Comment">
-                        </form><form action="/share" method="POST"><input type="submit" value="Share"></form></td>
+                            <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
+                            <form action="/comment" method="POST"><input type="text" name="comment" placeholder="Kommentar..."><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
+                            <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td>
                         </tr>
                     </div>
                 </div>
             </div>
         </div>
-        <div style="background-color: #f8f9fa !important;">
+        <div style="background-color: #f8f9fa !important; width: 300px;">
             <h5 style="font-weight: bold;text-align: center; padding-top: 5%;">Newsfeed</h5>
             <table>
                 <tbody>

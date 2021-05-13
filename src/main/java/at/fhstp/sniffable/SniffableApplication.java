@@ -126,6 +126,7 @@ public class SniffableApplication {
 			  if ("username".equals(ck.getName())) {
 				accountsearch(ck.getValue(), model);
 				model.addAttribute("images",imageMetaRepository.getImagePathsForUser(ck.getValue()));
+				model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(ck.getValue()));
 				return "own_account.html";
 				}
 				
@@ -143,6 +144,7 @@ public class SniffableApplication {
 					return "searchStatus";
 		}
 		model.addAttribute("images",imageMetaRepository.getImagePathsForUser(name));
+		model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(name));
 
 		return "other_account.html";
 	}
@@ -235,17 +237,68 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam("image") ImageMeta image ,String tweet, Model model,HttpServletRequest request)
+	public String like(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
 	{
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null){
-			for (Cookie ck : cookies) {
-			  if ("username".equals(ck.getName())) {
-				Sniffer user=accountsearch(ck.getValue(), model);
-				image.addLike(ck.getName());
-				
-				updateObjH2(user);
-			  }
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							meta.addLike(ck.getValue());
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
+							updateObjH2(user);
+						}
+					}
+				}
+			}
+		}
+		return "redirect:/";
+	}
+
+	@PostMapping("/comment")
+	public String comment(@RequestParam("image") String imagepath, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	{
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							meta.addComment(ck.getValue(), comment);
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") kommentiert: "+comment);
+							updateObjH2(user);
+						}
+					}
+				}
+			}
+		}
+		return "redirect:/";
+	}
+
+	@PostMapping("/share")
+	public String share(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	{
+		for (ImageMeta meta:imageMetaRepository.getMetaData())
+		{
+			if (meta.getFilePath().toString().equals(imagepath))
+			{
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null){
+					for (Cookie ck : cookies) {
+						if ("username".equals(ck.getName())) {
+							Sniffer user=accountsearch(meta.getUser(), model);
+							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
+							updateObjH2(user);
+						}
+					}
+				}
 			}
 		}
 		return "redirect:/";
