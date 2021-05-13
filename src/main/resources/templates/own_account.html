@@ -72,9 +72,9 @@
                                 <input type="hidden" th:value="${tweet.getContent[1]}" name="id" />
                                 <input type="hidden" th:value="0" name="type"/>
                                 <table><tbody><tr><td>
-                                <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td><td>
-                                <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td><td>
-                                <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td></tr></tbody></table>
+                                <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td><td>
+                                <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td><td>
+                                <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td></tr></tbody></table>
                             </div>
                         </div>
                     </tr>
@@ -84,9 +84,9 @@
                             <td><img th:src="@{${image.getFilePathHtml}}"
                             class="card img-fluid" style="width:100%;" alt=""/><br>
                             <table><tbody><tr><td>
-                            <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td><td>
-                            <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td><td>
-                            <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td></tr></tbody></table>
+                            <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td><td>
+                            <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td><td>
+                            <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td></tr></tbody></table>
                         </tr>
                     </div>
                 </div>
