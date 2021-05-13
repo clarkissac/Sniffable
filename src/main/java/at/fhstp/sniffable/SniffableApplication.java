@@ -229,9 +229,9 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, 
-	@RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
+	public String like(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
+		
 		if (type == 1) {
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
@@ -270,8 +270,7 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/comment")
-	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, 
-	@RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	public String comment(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
 	{
 		if(type == 1){
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
@@ -297,7 +296,6 @@ public class SniffableApplication {
 					if (cookies != null){
 						for (Cookie ck : cookies) {
 							if ("username".equals(ck.getName())) {
-								//System.out.println(ck.getValue());
 								Sniffer user = accountsearch(username, model);
 								Tweet tweet = user.searchTweet(tweetid);
 								tweet.addComment(comment,ck.getValue());
@@ -311,8 +309,7 @@ public class SniffableApplication {
 	}
 
 	@PostMapping("/share")
-	public String share(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type,
-	 @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
+	public String share(@RequestParam(value ="image", required = false) String imagepath,@RequestParam(value ="username", required = false) String username, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model, HttpServletRequest request)
 	{
 		if(type ==1){
 			for (ImageMeta meta:imageMetaRepository.getMetaData())
@@ -323,9 +320,11 @@ public class SniffableApplication {
 					if (cookies != null){
 						for (Cookie ck : cookies) {
 							if ("username".equals(ck.getName())) {
-								Sniffer user=accountsearch(meta.getUser(), model);
+								Sniffer user = accountsearch(meta.getUser(), model);
 								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
 								updateObjH2(user);
+								ImageMeta newMeta = new ImageMeta(meta.getName(), meta.getSize(), meta.getFilePath(), ck.getValue());
+								imageMetaRepository.addMeta(newMeta);
 							}
 						}
 					}
