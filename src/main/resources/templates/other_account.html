@@ -4,6 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Spring Boot Form Demo</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script language="javascript" type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -13,9 +14,9 @@
         <div class="col-md-5 mx-auto">
             <!-- Profile widget -->
             <div class="bg-white shadow rounded overflow-hidden">
-                <div class="px-4 pt-0 pb-4 cover">
+                <div class="px-4 pt-0 pb-4 cover main_div" style="padding-top: 4% !important;">
                     <input type="text"  name="search_user" id="search_user" placeholder="Search for dogs...">
-                    <input type="submit" name="bt_search" id="bt_search" value="Search">
+                    <input type="submit" name="bt_search" id="bt_search" value="Search" style="margin-top:1%;">
                     <div class="media align-items-end profile-head">
                         <div class="profile mr-3"><img src="https://i.pinimg.com/originals/6f/1e/8b/6f1e8b15a860d0083116f8bd9e2778d6.png" alt="..." width="130" class="rounded mb-2 img-thumbnail"><!--<a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>--></div>
                         <div class="media-body mb-5 text-white">
@@ -59,7 +60,7 @@
                             </table>
                             </div>
                         </form>
-                        <div class="row" th:with="count=0">
+                        <div class="row main_div" th:with="count=0">
                             <tr th:each = "image : ${images}">
                                 <td><img th:src="@{${image.getFilePathHtml}}"
                                 class="card img-fluid" style="width:100%;" alt=""/><br>

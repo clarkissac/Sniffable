@@ -61,7 +61,7 @@ public class Sniffer implements Subject,java.io.Serializable {
 				return new Tweet();
 			}
 		}
-
+		return null;
 
 	}
 
