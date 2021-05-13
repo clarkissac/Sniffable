@@ -1,25 +1,58 @@
+<!--
+Author: Colorlib
+Author URL: https://colorlib.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-<meta charset="ISO-8859-1">
-<title>User Registration</title>
+<title>Sniffable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
 </head>
 <body>
-<div align="center">
-    <h1>User Registration</h1>
-    <form action="#" th:action="@{/register}" method="post" th:object="${user}">
-        <label>Username:</label>
-        <input type="text" th:field="*{name}" /><br/>
-        <label>First name:</label>
-        <input type="text" th:field="*{firstname}" /><br/>
-        <label>Last name:</label>
-        <input type="text" th:field="*{lastname}" /><br/>
-        <label>password:</label>
-        <input type="password" th:field="*{password}" /><br/>
-        <label>dogname:</label>
-        <input type="text" th:field="*{dogname}" /><br/>
-        <button type="submit">Register</button>    
-    </form>
-</div>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<h1>Registration for Sniffable</h1>
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="#" th:action="@{/register}" method="post" th:object="${user}">
+					<input class="text" type="text" placeholder="Username" required="" th:field="*{name}">
+					<input class="text" type="text" placeholder="Firstname" required="" th:field="*{firstname}">
+                    <input class="text" type="text" placeholder="Lastname" required="" th:field="*{lastname}">
+                    <input class="text" type="text" placeholder="Dogname" required="" th:field="*{dogname}">
+					<input class="text" type="password" placeholder="Password" required="" th:field="*{password}">
+					<input type="submit" value="SIGNUP">
+				</form>
+				<p>Don't have an Account? <a href="/login"> Login Now!</a></p>
+			</div>
+		</div>
+		<!-- copyright -->
+		<div class="colorlibcopy-agile">
+			<p>© 2021 Sniffable Signup Form. All rights reserved | Design by Nico, Sharath & Rafi</a></p>
+		</div>
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<!-- //main -->
 </body>
 </html>
