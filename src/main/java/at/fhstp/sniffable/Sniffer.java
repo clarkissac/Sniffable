@@ -83,14 +83,33 @@ public class Sniffer implements Subject,java.io.Serializable {
 	
 	public void addNewFollower(String follower)
 	{
-		this.followerlist.add(follower);
-		this.followercount+=1;
+
+		boolean isfollower = false;
+        for (String follow : followerlist) {
+            if(follow.equals(follower)){
+                isfollower = true;
+            }      
+        }
+        if(!isfollower){
+            this.followerlist.add(follower);
+			this.followercount+=1;
+        }
+		
 	}
 
 	public void addNewFollowing(String following)
 	{
-		this.followinglist.add(following);
-		this.followingcount+=1;
+		boolean isfollowing = false;
+        for (String follower : followinglist) {
+            if(follower.equals(following)){
+                isfollowing = true;
+            }      
+        }
+        if(!isfollowing){
+            this.followinglist.add(following);
+			this.followingcount+=1;
+        }
+		
 	}
 
 	
