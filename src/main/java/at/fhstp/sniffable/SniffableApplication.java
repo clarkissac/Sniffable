@@ -228,7 +228,6 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer user=accountsearch(ck.getValue(), model);
-				
 				user.addTweets(tweet);
 				updateObjH2(user);
 			  }
