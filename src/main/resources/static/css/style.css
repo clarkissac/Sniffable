@@ -17,11 +17,27 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     width: 100%;
     border: 1px solid black;
   }
+  #bt_follow {
+    margin: auto;
+  }
+  .special_buttons input[type="submit"]{
+    margin: auto !important;
+    width: auto !important;
+  }
+
 
   #search_user::placeholder {
     color: grey;
   }
 
+  .comment {
+    width: auto !important;
+    border: 1px solid black !important;
+  }
+
+  .comment::placeholder {
+    color: grey !important;
+  }
   .main_div input[type="submit"] {
     border: 1px solid black;
     font-size: .9em;
