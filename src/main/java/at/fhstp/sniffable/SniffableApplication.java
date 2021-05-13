@@ -325,7 +325,6 @@ public class SniffableApplication {
 		Cookie[] cookies = request.getCookies();
 
         if (file.isEmpty() || !file.getContentType().startsWith("image")) {
-            redirectAttributes.addFlashAttribute("message", "Invalid File");
             return "redirect:/";
         } 
 
@@ -336,7 +335,9 @@ public class SniffableApplication {
 					Path path = Paths.get(UPLOADED_FOLDER + "\\" + ck.getValue() + "\\" + System.currentTimeMillis() + "_" + file.getOriginalFilename());		
 					Files.createDirectories(path.getParent());
 					Files.write(path, bytes);
-					//System.out.println(path);
+					Sniffer user=accountsearch(ck.getValue(), model);
+					user.updateFollowersTimeline(ck.getValue()+" hat ein Foto gepostet:\n"+ file.getOriginalFilename());
+					updateObjH2(user);
 					ImageMeta metaDate = new ImageMeta(file.getOriginalFilename(), file.getSize(), path, ck.getValue());
 					imageMetaRepository.addMeta(metaDate);
 					
