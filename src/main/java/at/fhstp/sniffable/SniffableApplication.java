@@ -62,17 +62,13 @@ public class SniffableApplication {
 					object = new ObjectInputStream(new ByteArrayInputStream(buf));
 
 				user = (Sniffer) object.readObject();
-					//Sniffer user = (Sniffer) rs.getObject("obj");
 				if (model!=null)
 				{
 					model.addAttribute("user", user);
 				}
-				
-				//System.out.println(user.getName());
 				dbConnection.close();
 				return user;
 			}
-			
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
@@ -129,8 +125,6 @@ public class SniffableApplication {
 				model.addAttribute("imagescount",imageMetaRepository.getImagePathCountForUser(ck.getValue()));
 				return "own_account.html";
 				}
-				
-				//return "welcome.html";
 			  }
 		  	}
 			return "index.html";
@@ -178,8 +172,7 @@ public class SniffableApplication {
 		catch (Exception e)   {
 			e.printStackTrace();
 		}
-		
-		return "register_success.html";
+		return "redirect:/";
 	}
 	@GetMapping("/login")
 	public String getForm(){
@@ -228,7 +221,6 @@ public class SniffableApplication {
 			for (Cookie ck : cookies) {
 			  if ("username".equals(ck.getName())) {
 				Sniffer user=accountsearch(ck.getValue(), model);
-				
 				user.addTweets(tweet);
 				updateObjH2(user);
 			  }
@@ -237,90 +229,127 @@ public class SniffableApplication {
 		return "redirect:/";
 	}
 	@PostMapping("/like")
-	public String like(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	public String like(@RequestParam(value ="image", required = false) String imagepath, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
-		for (ImageMeta meta:imageMetaRepository.getMetaData())
-		{
-			if (meta.getFilePath().toString().equals(imagepath))
+		if (type == 1) {
+			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
-				Cookie[] cookies = request.getCookies();
-				if (cookies != null){
-					for (Cookie ck : cookies) {
-						if ("username".equals(ck.getName())) {
-							meta.addLike(ck.getValue());
-							Sniffer user=accountsearch(meta.getUser(), model);
-							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
-							updateObjH2(user);
+				if (meta.getFilePath().toString().equals(imagepath))
+				{
+					Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								meta.addLike(ck.getValue());
+								Sniffer user=accountsearch(meta.getUser(), model);
+								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geliket");
+								updateObjH2(user);
+							}
 						}
 					}
 				}
 			}
+		}
+		if (type == 0) {
+			Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								//System.out.println(ck.getValue());
+								Sniffer user = accountsearch(ck.getValue(), model);
+								Tweet tweet = user.searchTweet(tweetid);
+								tweet.addLike(ck.getValue());
+								user.addToTimeline(ck.getValue()+" hat dein Tweet ("+tweet.getContent()[0]+") geliket");
+								updateObjH2(user);
+							}
+						}
+					}
 		}
 		return "redirect:/";
 	}
 
 	@PostMapping("/comment")
-	public String comment(@RequestParam("image") String imagepath, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
+	public String comment(@RequestParam(value ="image", required = false) String imagepath, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, @RequestParam("comment") String comment, Model model,HttpServletRequest request)
 	{
-		for (ImageMeta meta:imageMetaRepository.getMetaData())
-		{
-			if (meta.getFilePath().toString().equals(imagepath))
+		if(type == 1){
+			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
-				Cookie[] cookies = request.getCookies();
-				if (cookies != null){
-					for (Cookie ck : cookies) {
-						if ("username".equals(ck.getName())) {
-							meta.addComment(ck.getValue(), comment);
-							Sniffer user=accountsearch(meta.getUser(), model);
-							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") kommentiert: "+comment);
-							updateObjH2(user);
+				if (meta.getFilePath().toString().equals(imagepath))
+				{
+					Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								meta.addComment(ck.getValue(), comment);
+								Sniffer user=accountsearch(meta.getUser(), model);
+								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") kommentiert: "+comment);
+								updateObjH2(user);
+							}
 						}
 					}
 				}
 			}
+		}
+		if (type == 0) {
+			Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								//System.out.println(ck.getValue());
+								Sniffer user = accountsearch(ck.getValue(), model);
+								Tweet tweet = user.searchTweet(tweetid);
+								tweet.addComment(comment,ck.getValue());
+								user.addToTimeline(ck.getValue()+" hat dein Tweet ("+tweet.getContent()[0]+") kommentiert: "+comment);
+								updateObjH2(user);
+							}
+						}
+					}
 		}
 		return "redirect:/";
 	}
 
 	@PostMapping("/share")
-	public String share(@RequestParam("image") String imagepath, Model model,HttpServletRequest request)
+	public String share(@RequestParam(value ="image", required = false) String imagepath, @RequestParam("type") int type, @RequestParam(value = "id", required = false) String tweetid, Model model,HttpServletRequest request)
 	{
-		for (ImageMeta meta:imageMetaRepository.getMetaData())
-		{
-			if (meta.getFilePath().toString().equals(imagepath))
+		if(type ==1){
+			for (ImageMeta meta:imageMetaRepository.getMetaData())
 			{
-				Cookie[] cookies = request.getCookies();
-				if (cookies != null){
-					for (Cookie ck : cookies) {
-						if ("username".equals(ck.getName())) {
-							Sniffer user=accountsearch(meta.getUser(), model);
-							user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
-							updateObjH2(user);
+				if (meta.getFilePath().toString().equals(imagepath))
+				{
+					Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								Sniffer user=accountsearch(meta.getUser(), model);
+								user.addToTimeline(ck.getValue()+" hat dein Bild ("+meta.getName()+") geshared");
+								updateObjH2(user);
+							}
 						}
 					}
 				}
 			}
 		}
+		if (type == 0) {
+			Cookie[] cookies = request.getCookies();
+					if (cookies != null){
+						for (Cookie ck : cookies) {
+							if ("username".equals(ck.getName())) {
+								//System.out.println(ck.getValue());
+								Sniffer user = accountsearch(ck.getValue(), model);
+								Tweet tweet = user.searchTweet(tweetid);
+								user.addToTimeline(ck.getValue()+" hat dein Tweet ("+tweet.getContent()[0]+") geshared");
+								updateObjH2(user);
+							}
+						}
+					}
+		}
+		
 		return "redirect:/";
 	}
 
-    @GetMapping("/upload")
-    public String uploadIndex(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-
-        Cookie[] cookies = request.getCookies();
-		if (cookies != null){
-			for (Cookie ck : cookies) {
-			  if ("username".equals(ck.getName()) && accountsearch(ck.getValue(), model) != null) {
-				return "upload";
-				}
-			  }
-		  	}
-        return "uploadstatus";
-    }
-
-
     @PostMapping("/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model,  HttpServletRequest request) {
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, Model model,  HttpServletRequest request) throws InterruptedException {
+
 
 		Cookie[] cookies = request.getCookies();
 
@@ -348,13 +377,8 @@ public class SniffableApplication {
             
             e.printStackTrace();
         }
-        
+		Thread.sleep(1000);
         return "redirect:/";
-    }
-
-    @GetMapping("/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
     }
 
 }

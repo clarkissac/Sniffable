@@ -4,6 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Sniffable - ein Soziales Netzwerk für Hunde</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script language="javascript" type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -13,9 +14,9 @@
         <div class="col-md-5 mx-auto">
             <!-- Profile widget -->
             <div class="bg-white shadow rounded overflow-hidden">
-                <div class="px-4 pt-0 pb-4 cover">
+                <div class="px-4 pt-0 pb-4 cover main_div" style="padding-top: 4% !important;">
                     <input type="text"  name="search_user" id="search_user" placeholder="Search for dogs...">
-                    <input type="submit" name="bt_search" id="bt_search" value="Search">
+                    <input type="submit" name="bt_search" id="bt_search" value="Search" style="margin-top:1%;">
                     <div class="media align-items-end profile-head">
                         <div class="profile mr-3"><img src="https://i.pinimg.com/originals/6f/1e/8b/6f1e8b15a860d0083116f8bd9e2778d6.png" alt="..." width="130" class="rounded mb-2 img-thumbnail"><!--<a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>--></div>
                         <div class="media-body mb-5 text-white">
@@ -25,7 +26,7 @@
                 </div>
             </form><form action="/follow" method="POST">
                 <input type="hidden" name="hidden_wanted_user" th:value="${user.name}">
-                <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <div class="bg-light p-4 d-flex justify-content-end text-center main_div">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item" style="vertical-align: bottom;">
                             <input type="submit" name="bt_follow" id="bt_follow" value="Follow">
@@ -44,28 +45,31 @@
                 </form><form action="/"  method="POST">
                     <div class="py-4 px-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h5 class="mb-0">Recent photos and tweets</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                            <h5 class="mb-0">Recent photos and tweets</h5>
                         </div>
-                        <div class="row">
-                            <table>
-                                <tr th:each="tweet : ${user.getTweets}">
-                                    <div class="px-4 py-3" style="width:100%;">
-                                        <h6 class="mb-0">Hat getweetet</h6>
-                                        <div class="p-4 rounded shadow-sm bg-light">
-                                            <p class="font-italic mb-0" th:text="${tweet}"></p>
-                                        </div>
-                                    </div>
-                                </tr>
-                            </table>
+                        <tr th:each="tweet : ${user.getTweets}">
+                            <div class="px-4 py-3 main_div" style="width:100%;">
+                                <h6 class="mb-0">Hat getweetet</h6>
+                                <div class="p-4 rounded shadow-sm bg-light special_buttons">
+                                    <p class="font-italic mb-0" th:text="${tweet.getContent[0]}"></p>
+                                    <input type="hidden" th:value="${tweet.getContent[1]}" name="id" />
+                                    <input type="hidden" th:value="0" name="type"/>
+                                    <table><tbody><tr><td>
+                                    <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td><td>
+                                    <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td><td>
+                                    <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/></form></td></tr></tbody></table>
+                                </div>
                             </div>
+                        </tr>
                         </form>
-                        <div class="row" th:with="count=0">
+                        <div class="row  main_div special_buttons" th:with="count=0" >
                             <tr th:each = "image : ${images}">
                                 <td><img th:src="@{${image.getFilePathHtml}}"
                                 class="card img-fluid" style="width:100%;" alt=""/><br>
-                                <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
-                                <form action="/comment" method="POST"><input type="text" name="comment" placeholder="Kommentar..."><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form>
-                                <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td>
+                                <table><tbody><tr><td>
+                                <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td><td>
+                                <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td><td>
+                                <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"></form></td></tr></tbody></table>
                             </tr>
                         </div>
                     </div>
