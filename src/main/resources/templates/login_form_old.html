@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>spring boot form submit example</title>
+</head>
+<body onload="badcredentials()">
+<h2>Employee Details</h2>
+<form name="f" method="post" onsubmit="return validate()" action="login">
+    Enter Employee Name : <input type="text" name="name"/>
+    Enter Employee Email Address: <input type="password" name="password">
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    function badcredentials() {
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        if (urlParams.get("bad")==1) {
+            alert("bad credentials");
+        }
+    }
+    function validate() {
+        if (document.f.name.value == "" && document.f.password.value == "") {
+            alert("Username and password are required");
+            document.f.name.focus();
+            return false;
+        }
+        if (document.f.name.value == "") {
+            alert("Username is required");
+            document.f.name.focus();
+            return false;
+        }
+        if (document.f.password.value == "") {
+        alert("Password is required");
+        document.f.password.focus();
+            return false;
+        }
+    }
+</script>
