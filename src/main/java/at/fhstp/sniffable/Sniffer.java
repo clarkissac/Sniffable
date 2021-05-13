@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class Sniffer implements Subject,java.io.Serializable {
+public class Sniffer implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	//protected List<Observer> observers = new ArrayList<Observer>();
 	protected List<String> followerlist = new ArrayList<String>();
