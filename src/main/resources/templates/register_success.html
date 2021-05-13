@@ -9,12 +9,26 @@
         width: 200px;
         text-align: left;
     }
+
+    a:link, a:visited {
+      background-color: #f44336;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    a:hover, a:active {
+      background-color: red;
+    }
 </style>
 </head>
 <body>
 <div align="center">
     <h2>Registration Succeeded!</h2>
     <span>Full name:</span><span th:text="${user.name}"></span><br/>
+    <a href="" >Return to Profile</a>
 </div>
 </body>
 </html>
