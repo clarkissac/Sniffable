@@ -43,7 +43,7 @@ public class SniffableApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SniffableApplication.class, args);
-		//test
+		
 	}
 	public static Sniffer accountsearch(String name, Model model) {
 		try {
@@ -192,7 +192,6 @@ public class SniffableApplication {
 			preparedStatement.setObject(1,name);
 			preparedStatement.setObject(2,password);
 			ResultSet rs = preparedStatement.executeQuery();
-			///System.out.println(rs.getString("first_name"));
 			if (!rs.next()) {
 				dbConnection.close();
 				redirectAttributes.addAttribute("bad",1); //bad credentials
@@ -207,7 +206,7 @@ public class SniffableApplication {
 		}
 		catch (Exception e)   {
 			e.printStackTrace();
-			return "index.html"; //todo
+			return "index.html"; 
 		}
     }
 
@@ -256,7 +255,6 @@ public class SniffableApplication {
 					if (cookies != null){
 						for (Cookie ck : cookies) {
 							if ("username".equals(ck.getName())) {
-								//System.out.println(ck.getValue());
 								Sniffer user = accountsearch(username, model);
 								Tweet tweet = user.searchTweet(tweetid);
 								tweet.addLike(ck.getValue());
