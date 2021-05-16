@@ -156,7 +156,7 @@ public class SniffableApplicationTests {
 	
 	@Test
 	void testImageMeta() {
-				Path path = Paths.get("testPath");
+		Path path = Paths.get("testPath");
 		ImageMeta metaDate = new ImageMeta("testImage", 0, path, "testUser");
 
 		imageMetaRepository.addMeta(metaDate);
