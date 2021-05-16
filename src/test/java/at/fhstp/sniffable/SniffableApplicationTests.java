@@ -7,19 +7,26 @@ import java.util.logging.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+<<<<<<< Updated upstream
 import java.io.IOException;
 import java.net.*;
 import java.net.http.*;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
+=======
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+>>>>>>> Stashed changes
 import java.sql.Connection;
 
 import org.apache.tomcat.jni.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.context.SpringBootTest;
-import at.fhstp.sniffable.*;
+
 
 @SpringBootTest
 public class SniffableApplicationTests {
@@ -56,6 +63,7 @@ public class SniffableApplicationTests {
      * Tear all things up
      */
     @BeforeAll
+<<<<<<< Updated upstream
 
 	//HTTP GET
 	public static HttpResponse<String> httpGet(String uri) throws Exception {
@@ -110,6 +118,13 @@ public class SniffableApplicationTests {
 		temp.put("password","user2");
 		httpPost("127.0.0.1/register",temp);
 
+=======
+    public static void setUp() {
+		Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
+		Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
+		adduser(user1);
+		adduser(user2) ;
+>>>>>>> Stashed changes
 		
         System.out.println("@BeforeAll - executes once before all test methods in this class");
     }
@@ -127,7 +142,37 @@ public class SniffableApplicationTests {
      * Rigorous Test :-)
      */
 	@Test
-	void contextLoads() {
+	void testLike() {
+
+		Tweet tweet = new Tweet("TestTweet");
+		tweet.addLike("testUser");
+		assertEquals(tweet.getLikes().size(), 1);
+		assertEquals(tweet.getLikes().get(0).getUser(),"testUser");
 	}
+
+	@Test
+	void testComment() {
+
+		Tweet tweet = new Tweet("TestTweet");
+		tweet.addComment("testUser", "testComment");
+		assertEquals(tweet.getComments().size(), 1);
+		assertEquals(tweet.getComments().get(0).getUser(),"testUser");
+		assertEquals(tweet.getComments().get(0).getContent(),"testComment");
+	}
+
+	@Test
+	void testImage() {
+
+		ImageMetaRepository imageMetaRepository;
+
+
+
+		Tweet tweet = new Tweet("TestTweet");
+		tweet.addComment("testUser", "testComment");
+		assertEquals(tweet.getComments().size(), 1);
+		assertEquals(tweet.getComments().get(0).getUser(),"testUser");
+		assertEquals(tweet.getComments().get(0).getContent(),"testComment");
+	}
+
 
 }
