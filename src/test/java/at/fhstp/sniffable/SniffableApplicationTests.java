@@ -1,10 +1,18 @@
 package at.fhstp.sniffable;
 
+import java.util.HashMap;
+import java.util.StringJoiner;
 import java.util.logging.*;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.io.IOException;
+import java.net.*;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 
 import org.apache.tomcat.jni.User;
@@ -48,6 +56,34 @@ public class SniffableApplicationTests {
      * Tear all things up
      */
     @BeforeAll
+	//HTTP GET
+	public static HttpResponse<String> httpGet(String uri) throws Exception {
+		var client = HttpClient.newHttpClient();
+		var request = HttpRequest.newBuilder()
+				.uri(URI.create(uri))
+				.build();
+		return client.send(request, BodyHandlers.ofString());
+	}
+	//HTTP POST
+	public static HttpResponse<String> httpPost(String address, HashMap<String,String> arguments) 
+    throws IOException, InterruptedException {
+    var sj = new StringJoiner("&");
+    for(var entry : arguments.entrySet()) {
+      sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
+              + URLEncoder.encode(entry.getValue(), "UTF-8"));
+    }
+
+    var out = sj.toString().getBytes(StandardCharsets.UTF_8);
+    var request = HttpRequest.newBuilder()
+            .uri(URI.create(address))
+            .headers("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+            .POST(BodyPublishers.ofByteArray(out))
+            .build();
+
+    return HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
+  }
+
+  
     public static void setUp() {
 		Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
 		Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
