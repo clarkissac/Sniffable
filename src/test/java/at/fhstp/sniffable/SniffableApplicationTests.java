@@ -158,13 +158,16 @@ public class SniffableApplicationTests {
 	void testImageMeta() {
 		Path path = Paths.get("testPath");
 		ImageMeta metaDate = new ImageMeta("testImage", 0, path, "testUser");
-
+		metaDate.addComment("testUser", "testComment");
 		imageMetaRepository.addMeta(metaDate);
 		assertEquals(imageMetaRepository.getImageCount(), 1);
 		assertEquals(imageMetaRepository.getMetaData().get(0).getName(), "testImage");
 		assertEquals(imageMetaRepository.getMetaData().get(0).getSize(), 0);
 		assertEquals(imageMetaRepository.getMetaData().get(0).getFilePath(), path);
 		assertEquals(imageMetaRepository.getMetaData().get(0).getUser(), "testUser");
+		assertEquals(imageMetaRepository.getMetaData().get(0).getComments().get(0).getUser(),"testUser");
+		assertEquals(imageMetaRepository.getMetaData().get(0).getComments().get(0).getContent(),"testComment");
+		assertEquals(imageMetaRepository.getMetaData().get(0).getComments().size(), 1);
 		
 	}
 
