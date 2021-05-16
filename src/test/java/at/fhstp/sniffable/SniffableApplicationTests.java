@@ -56,7 +56,7 @@ public class SniffableApplicationTests {
      * Tear all things up
      */
     @BeforeAll
-	
+
 	//HTTP GET
 	public static HttpResponse<String> httpGet(String uri) throws Exception {
 		var client = HttpClient.newHttpClient();
@@ -91,6 +91,7 @@ public class SniffableApplicationTests {
 		//adduser(user1);
 		//adduser(user2);
 
+		//add user1 and user2
 		HashMap <String,String> temp = new HashMap<String,String>();
 		temp.put("name", "user1");
 		temp.put("name","user1");
@@ -99,6 +100,16 @@ public class SniffableApplicationTests {
 		temp.put("dogname","user1");
 		temp.put("password","user1");
 		httpPost("127.0.0.1/register",temp);
+
+		temp.clear();
+		temp.put("name", "user2");
+		temp.put("name","user2");
+		temp.put("firstname","user2");
+		temp.put("lastname","user2");
+		temp.put("dogname","user2");
+		temp.put("password","user2");
+		httpPost("127.0.0.1/register",temp);
+
 		
         System.out.println("@BeforeAll - executes once before all test methods in this class");
     }
