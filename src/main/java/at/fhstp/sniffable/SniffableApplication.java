@@ -45,7 +45,8 @@ public class SniffableApplication {
 		SpringApplication.run(SniffableApplication.class, args);
 		
 	}
-	public static Sniffer accountsearch(String name, Model model) {
+
+	public static Sniffer accountsearch(String name, Model model) {// sucht den namen vom user und gibt ihn zurück falls er exisitert;
 		try {
 			Sniffer user;
 			Class.forName(DB_DRIVER);
@@ -77,7 +78,7 @@ public class SniffableApplication {
 		
 	}
 
-	public static void updateObjH2(Sniffer user)
+	public static void updateObjH2(Sniffer user) // erneuert den Eintrag des Users in der H2 Datenbank
 	{
 		try {
 			Class.forName(DB_DRIVER);
@@ -94,7 +95,7 @@ public class SniffableApplication {
 		}
 	}
 
-	@PostMapping("/follow")
+	@PostMapping("/follow") //Post request auf den Follow Knopf
 	public String follownow(@RequestParam("hidden_wanted_user") String wantedUser,HttpServletRequest request, Model model)
 	{
 		Sniffer wanted = accountsearch(wantedUser, model);
@@ -113,7 +114,7 @@ public class SniffableApplication {
 		model.addAttribute("user", wanted);
 		return "other_account.html";	
 	}
-	@GetMapping("/")
+	@GetMapping("/") // cookie wird überprüft auf den User, falls keiner vorhanden wird der Index zurück gegeben.
 	public String homepage(Model model,HttpServletRequest request)
 	{
 		Cookie[] cookies = request.getCookies();
@@ -130,7 +131,7 @@ public class SniffableApplication {
 			return "index.html";
 	}
 
-	@PostMapping("/")
+	@PostMapping("/") // Usersuche
 	public String submit_search(@RequestParam("search_user") String name, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		if(accountsearch(name, model) == null){
 					redirectAttributes.addFlashAttribute("message",
@@ -150,7 +151,7 @@ public class SniffableApplication {
         return "register_form.html";
     }
 
-	@PostMapping("/register")
+	@PostMapping("/register") //user erstellen
 	public String submitForm(@ModelAttribute("user") Sniffer user, HttpServletResponse response) {
 		try {
 			Class.forName(DB_DRIVER);
