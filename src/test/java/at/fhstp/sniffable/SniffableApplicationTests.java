@@ -37,7 +37,6 @@ public class SniffableApplicationTests {
 	ImageMetaRepository imageMetaRepository;
 
 	Logger log = Logger.getLogger(SniffableApplication.class.getName());
-		
     /**
      * Tear all things up
      */
@@ -105,8 +104,8 @@ public class SniffableApplicationTests {
 		assertEquals(user.getLastname(), "test");
 		assertEquals(user.getDogname(), "test");
 		assertEquals(user.getFirstname(), "test");
-		assertEquals(user.getTweets().get(0).getContent(), "test");
+		assertEquals(user.getTweets().get(0).getContent()[0], "TestTweet");
+
+
 	}
-
-
 }
