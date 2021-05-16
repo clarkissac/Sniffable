@@ -1,24 +1,10 @@
 package at.fhstp.sniffable;
 
-import java.util.HashMap;
-import java.util.StringJoiner;
 import java.util.logging.*;
-
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.io.IOException;
-import java.net.*;
-import java.net.http.*;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.sql.Connection;
-
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
