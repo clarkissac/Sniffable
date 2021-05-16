@@ -37,89 +37,12 @@ public class SniffableApplicationTests {
 	ImageMetaRepository imageMetaRepository;
 
 	Logger log = Logger.getLogger(SniffableApplication.class.getName());
-
-	public static void adduser(Sniffer user) {
-		try {
-
-			Class.forName(DB_DRIVER);
-			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-			String selectQuery = "INSERT INTO Sniffers (username, passwort, first_name, last_name, dog_name, obj) VALUES (?, ?, ?, ?, ?, ?); ";
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
-			preparedStatement.setObject(1,user.getName());
-			preparedStatement.setObject(2,user.getPassword());
-			preparedStatement.setObject(3,user.getFirstname());
-			preparedStatement.setObject(4,user.getLastname());
-			preparedStatement.setObject(5,user.getDogname());
-			preparedStatement.setObject(6,user);
-			preparedStatement.execute();
-			dbConnection.commit();
-			dbConnection.close();
-		} catch (Exception e) {
-			//TODO: handle exception
-		}
 		
-	}
     /**
      * Tear all things up
      */
     @BeforeAll
-	//HTTP GET
-	public static HttpResponse<String> httpGet(String uri) throws Exception {
-		var client = HttpClient.newHttpClient();
-		var request = HttpRequest.newBuilder()
-				.uri(URI.create(uri))
-				.build();
-		return client.send(request, BodyHandlers.ofString());
-	}
-
-	//HTTP POST
-	public static HttpResponse<String> httpPost(String address, HashMap<String,String> arguments) 
-    throws IOException, InterruptedException {
-    var sj = new StringJoiner("&");
-    for(var entry : arguments.entrySet()) {
-      sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
-              + URLEncoder.encode(entry.getValue(), "UTF-8"));
-    }
-
-    var out = sj.toString().getBytes(StandardCharsets.UTF_8);
-    var request = HttpRequest.newBuilder()
-            .uri(URI.create(address))
-            .headers("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .POST(BodyPublishers.ofByteArray(out))
-            .build();
-
-    return HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
-  	}
-
     public static void setUp() throws IOException, InterruptedException {
-		//Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
-		//Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
-		//adduser(user1);
-		//adduser(user2);
-
-		//add user1 and user2
-		HashMap <String,String> temp = new HashMap<String,String>();
-		temp.put("name", "user1");
-		temp.put("name","user1");
-		temp.put("firstname","user1");
-		temp.put("lastname","user1");
-		temp.put("dogname","user1");
-		temp.put("password","user1");
-		httpPost("127.0.0.1/register",temp);
-
-		temp.clear();
-		temp.put("name", "user2");
-		temp.put("name","user2");
-		temp.put("firstname","user2");
-		temp.put("lastname","user2");
-		temp.put("dogname","user2");
-		temp.put("password","user2");
-		httpPost("127.0.0.1/register",temp);
-
-		Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
-		Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
-		adduser(user1);
-		adduser(user2) ;		
         System.out.println("@BeforeAll - executes once before all test methods in this class");
     }
 
