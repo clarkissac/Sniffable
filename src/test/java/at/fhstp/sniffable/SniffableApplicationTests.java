@@ -180,7 +180,7 @@ public class SniffableApplicationTests {
 		assertEquals(user.getDogname(), "test");
 		assertEquals(user.getFirstname(), "test");
 		assertEquals(user.getTweets().get(0).getContent(), "test");
-		;
+	}
 
 
 }
