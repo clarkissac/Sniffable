@@ -56,6 +56,7 @@ public class SniffableApplicationTests {
      * Tear all things up
      */
     @BeforeAll
+	
 	//HTTP GET
 	public static HttpResponse<String> httpGet(String uri) throws Exception {
 		var client = HttpClient.newHttpClient();
@@ -64,6 +65,7 @@ public class SniffableApplicationTests {
 				.build();
 		return client.send(request, BodyHandlers.ofString());
 	}
+
 	//HTTP POST
 	public static HttpResponse<String> httpPost(String address, HashMap<String,String> arguments) 
     throws IOException, InterruptedException {
@@ -81,14 +83,22 @@ public class SniffableApplicationTests {
             .build();
 
     return HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
-  }
+  	}
 
-  
-    public static void setUp() {
-		Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
-		Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
-		adduser(user1);
-		adduser(user2);
+    public static void setUp() throws IOException, InterruptedException {
+		//Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
+		//Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
+		//adduser(user1);
+		//adduser(user2);
+
+		HashMap <String,String> temp = new HashMap<String,String>();
+		temp.put("name", "user1");
+		temp.put("name","user1");
+		temp.put("firstname","user1");
+		temp.put("lastname","user1");
+		temp.put("dogname","user1");
+		temp.put("password","user1");
+		httpPost("127.0.0.1/register",temp);
 		
         System.out.println("@BeforeAll - executes once before all test methods in this class");
     }
