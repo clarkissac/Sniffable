@@ -3,8 +3,8 @@ package at.fhstp.sniffable;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Paths;
-import java.sql.Connection;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
