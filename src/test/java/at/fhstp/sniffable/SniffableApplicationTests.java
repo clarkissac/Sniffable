@@ -38,44 +38,15 @@ public class SniffableApplicationTests {
 
 	Logger log = Logger.getLogger(SniffableApplication.class.getName());
 
-	public static void adduser(Sniffer user) {
-		try {
-
-			Class.forName(DB_DRIVER);
-			Connection dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-			String selectQuery = "INSERT INTO Sniffers (username, passwort, first_name, last_name, dog_name, obj) VALUES (?, ?, ?, ?, ?, ?); ";
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectQuery);
-			preparedStatement.setObject(1,user.getName());
-			preparedStatement.setObject(2,user.getPassword());
-			preparedStatement.setObject(3,user.getFirstname());
-			preparedStatement.setObject(4,user.getLastname());
-			preparedStatement.setObject(5,user.getDogname());
-			preparedStatement.setObject(6,user);
-			preparedStatement.execute();
-			dbConnection.commit();
-			dbConnection.close();
-		} catch (Exception e) {
-			//TODO: handle exception
-		}
-		
-	}
     /**
      * Tear all things up
      */
     @BeforeAll
-	//HTTP GET
-	public static HttpResponse<String> httpGet(String uri) throws Exception {
-		var client = HttpClient.newHttpClient();
-		var request = HttpRequest.newBuilder()
-				.uri(URI.create(uri))
-				.build();
-		return client.send(request, BodyHandlers.ofString());
-	}
-
 	//HTTP POST
-	public static HttpResponse<String> httpPost(String address, HashMap<String,String> arguments) 
-    throws IOException, InterruptedException {
-    var sj = new StringJoiner("&");
+	/**public static void httpPost(String address, HashMap<String,String> arguments) 
+	throws IOException,InterruptedException {
+
+	var sj = new StringJoiner("&");
     for(var entry : arguments.entrySet()) {
       sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
               + URLEncoder.encode(entry.getValue(), "UTF-8"));
@@ -88,8 +59,13 @@ public class SniffableApplicationTests {
             .POST(BodyPublishers.ofByteArray(out))
             .build();
 
-    return HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
-  	}
+	HttpResponse<String> response =HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
+	// print status code
+	System.out.println(response.statusCode());
+
+	// print response body
+	System.out.println(response.body());
+	}**/
 
     public static void setUp() throws IOException, InterruptedException {
 		//Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
@@ -98,14 +74,14 @@ public class SniffableApplicationTests {
 		//adduser(user2);
 
 		//add user1 and user2
-		HashMap <String,String> temp = new HashMap<String,String>();
+		/**HashMap <String,String> temp = new HashMap<String,String>();
 		temp.put("name", "user1");
 		temp.put("name","user1");
 		temp.put("firstname","user1");
 		temp.put("lastname","user1");
 		temp.put("dogname","user1");
 		temp.put("password","user1");
-		httpPost("127.0.0.1/register",temp);
+		httpPost("http://127.0.0.1:8080/register",temp);
 
 		temp.clear();
 		temp.put("name", "user2");
@@ -114,12 +90,10 @@ public class SniffableApplicationTests {
 		temp.put("lastname","user2");
 		temp.put("dogname","user2");
 		temp.put("password","user2");
-		httpPost("127.0.0.1/register",temp);
+		httpPost("http://127.0.0.1:8080/register",temp);**/
 
-		Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
-		Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");
-		adduser(user1);
-		adduser(user2) ;		
+		//Sniffer user1 = new Sniffer("user1","user1","user1","user1","user1");
+		//Sniffer user2 = new Sniffer("user2","user2","user2","user2","user2");	
         System.out.println("@BeforeAll - executes once before all test methods in this class");
     }
 
@@ -182,8 +156,8 @@ public class SniffableApplicationTests {
 		assertEquals(user.getLastname(), "test");
 		assertEquals(user.getDogname(), "test");
 		assertEquals(user.getFirstname(), "test");
-		assertEquals(user.getTweets().get(0).getContent(), "test");
+		assertEquals(user.getTweets().get(0).getContent()[0], "TestTweet");
+
+
 	}
-
-
 }
