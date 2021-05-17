@@ -57,7 +57,7 @@
                                     <input type="hidden" th:value="0" name="type"/>
                                     <table><tbody><tr><td>
                                     <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td><td>
-                                    <form action="/comment" method="POST"><input class="text-dark" type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td><td>
+                                    <form action="/comment" method="POST"><input class="text-dark comment" type="text" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td><td>
                                     <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="0" name="type"/><input type="hidden" th:value="${tweet.getContent[1]}" name="id"/><input type="hidden" th:value="${user.getName}" name="username"/></form></td></tr></tbody></table>
                                 </div>
                             </div>
