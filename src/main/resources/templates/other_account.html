@@ -68,7 +68,7 @@
                                 class="card img-fluid" style="width:100%;" alt=""/><br>
                                 <table><tbody><tr><td>
                                 <form action="/like" method="POST"><input type="submit" value="Like"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td><td>
-                                <form action="/comment" method="POST"><input type="text" class="comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td><td>
+                                <form action="/comment" method="POST"><input type="text" class=" text-dark comment" name="comment" placeholder="Kommentar..." style="display: inline !important;"><input type="submit" value="Comment"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td><td>
                                 <form action="/share" method="POST"><input type="submit" value="Share"><input type="hidden" th:value="@{${image.getFilePath}}" name="image"><input type="hidden" th:value="1" name="type"/></form></td></tr></tbody></table>
                             </tr>
                         </div>
